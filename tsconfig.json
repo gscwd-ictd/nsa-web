@@ -18,7 +18,8 @@
       }
     ],
     "paths": {
-      "@nsa/*": ["./src/*"]
+      "@nsa/*": ["./src/*"],
+      "@images/*": ["./public/images/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

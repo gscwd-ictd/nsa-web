@@ -1,0 +1,14 @@
+@import url('../../node_modules/ol/ol.css');
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+#map.ol-zoom {
+  top: 10;
+  right: auto;
+  left: 10;
+}
