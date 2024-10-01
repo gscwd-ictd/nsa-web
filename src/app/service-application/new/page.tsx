@@ -3,7 +3,7 @@ import { NewServiceApplicationPage } from '@nsa/lib/components/composables/new-s
 export default function NewServiceApplication() {
   return (
     <>
-      <div className="w-full h-[100vw]">
+      <div className="w-[100vw] h-[100vh]">
         <NewServiceApplicationPage />
       </div>
     </>
