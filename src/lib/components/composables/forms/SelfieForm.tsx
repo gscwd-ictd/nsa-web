@@ -1,12 +1,13 @@
 import { createContext, FunctionComponent, MutableRefObject, useRef } from 'react';
-import { Button } from '../../ui/button';
+import { Button } from '../../ui/Button';
 import { useApplicationFormStepStore, useApplicationFormStore } from '@nsa/lib/zustand/useApplicationFormStore';
 import { usePageContext } from '../new-service-application/NewServiceApplicationPage';
 import { FaRegIdCard } from 'react-icons/fa6';
-import { UploadIcon } from 'lucide-react';
+import { LucideLightbulb, UploadIcon } from 'lucide-react';
 import { FileToUploadCard } from '../features/UploadCard';
 import { useToast } from '@nsa/hooks/use-toast';
 import { InvisibleInput } from '../../ui/InvisibileInput';
+import { Alert, AlertDescription, AlertTitle } from '../../ui/Alert';
 
 type SelfieContextState = {
   selfieWithValidIdRef: MutableRefObject<HTMLInputElement>;
@@ -36,14 +37,28 @@ export const SelfieForm: FunctionComponent = () => {
   const selfieWithValidIdRef = useRef() as MutableRefObject<HTMLInputElement>;
 
   const onSubmit = () => {
-    if (validIdToUpload.length < 1) {
+    if (validIdToUpload.length < 1 && selfieWithValidIdToUpload.length >= 1) {
       toast({
         title: 'Cannot proceed',
         description: 'Must attach valid ID',
         variant: 'destructive',
         duration: 1500,
       });
-    } else {
+    } else if (selfieWithValidIdToUpload.length < 1 && validIdToUpload.length >= 1)
+      toast({
+        title: 'Cannot proceed',
+        description: 'Must attach seflie',
+        variant: 'destructive',
+        duration: 1500,
+      });
+    else if (selfieWithValidIdToUpload.length < 1 && validIdToUpload.length < 1)
+      toast({
+        title: 'Cannot proceed',
+        description: 'Must attach valid ID and selfie',
+        variant: 'destructive',
+        duration: 1500,
+      });
+    else {
       setCurrentStep(currentStep + 1);
       pageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -53,7 +68,25 @@ export const SelfieForm: FunctionComponent = () => {
     <>
       <form>
         {/* SELFIE */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8">
+        <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10">
+          <span>Attach your valid ID and selfie</span>
+        </div>
+
+        <Alert>
+          <div className="flex gap-2">
+            <div className="flex justify-center items-start ">
+              <LucideLightbulb className="sm:h-10 sm:w-10 lg:h-12 lg:w-12" />
+            </div>
+            <div>
+              <AlertTitle className="text-amber-500">Information</AlertTitle>
+              <AlertDescription>
+                We need to confirm your identity with a photo of yourself holding your ID.
+              </AlertDescription>
+            </div>
+          </div>
+        </Alert>
+
+        <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8 pt-9">
           {/* VALID ID */}
           <div>
             <div className="flex flex-col mb-2">
@@ -66,7 +99,7 @@ export const SelfieForm: FunctionComponent = () => {
             <div className="flex flex-col ">
               <InvisibleInput
                 ref={validIdRef}
-                accept="application/pdf, image/png, image/jpeg"
+                accept="application/pdf, image/png, image/jpeg, image/jpg"
                 files={validIdToUpload}
                 setFiles={setValidIdToUpload}
               />
@@ -124,7 +157,7 @@ export const SelfieForm: FunctionComponent = () => {
             <div className="flex flex-col ">
               <InvisibleInput
                 ref={selfieWithValidIdRef}
-                accept="application/pdf, image/png, image/jpeg"
+                accept="image/png, image/jpeg, image/jpg"
                 files={selfieWithValidIdToUpload}
                 setFiles={setSelfieWithValidIdToUpload}
               />

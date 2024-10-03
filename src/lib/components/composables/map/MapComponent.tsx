@@ -15,8 +15,6 @@ import markerIcon from '../../../../../public/images/map-marker.svg';
 import { useMapStore } from '@nsa/lib/zustand/useMapStore';
 import { useApplicationFormStore } from '@nsa/lib/zustand/useApplicationFormStore';
 import { mapStyles } from '../../openlayers/MapLayer';
-// import { BsPlus } from 'react-icons/bs';
-// import { HiMinusSmall } from 'react-icons/hi2';
 
 const MapComponent: FunctionComponent = () => {
   // setMapRef to enable the map references to be used in other components
@@ -98,8 +96,8 @@ const MapComponent: FunctionComponent = () => {
     <>
       <div ref={mapRef} className=" inset-0 overflow-hidden h-full w-full rounded border relative " />
       <div className="absolute top-2 right-10">
-        <div className="" id="zoom-btn" />
-        <div className="" id="slider" />
+        <div className="zoom-btn" id="zoom-btn" />
+        <div className="slider" id="slider" />
       </div>
 
       {/* <div className="absolute top-2 left-2 flex flex-col gap-1">

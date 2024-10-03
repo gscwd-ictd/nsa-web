@@ -2,7 +2,7 @@ import { useApplicationFormStore } from '@nsa/lib/zustand/useApplicationFormStor
 import { createContext, FunctionComponent, MutableRefObject, useRef } from 'react';
 import { PiCertificateFill, PiFileMagnifyingGlassFill } from 'react-icons/pi';
 import { HiDocumentText } from 'react-icons/hi2';
-import { Button } from '../../ui/button';
+import { Button } from '../../ui/Button';
 import { UploadIcon } from 'lucide-react';
 import { FileToUploadCard } from '../features/UploadCard';
 import { InvisibleInput } from '../../ui/InvisibileInput';
@@ -48,7 +48,7 @@ export const DocumentUploadForm: FunctionComponent = () => {
           <div className="w-full rounded-lg mb-2 flex flex-col">
             <InvisibleInput
               ref={proofOfOwnershipRef}
-              accept="application/pdf, image/png, image/jpeg"
+              accept="application/pdf, image/png, image/jpeg, image/jpg"
               files={proofOfOwnershipToUpload}
               setFiles={setProofOfOwnershipToUpload}
             />
@@ -111,7 +111,7 @@ export const DocumentUploadForm: FunctionComponent = () => {
           <div className="flex flex-col">
             <InvisibleInput
               ref={proofOfBillingRef}
-              accept="application/pdf, image/png, image/jpeg"
+              accept="application/pdf, image/png, image/jpeg, image/jpg"
               files={proofOfBillingToUpload}
               setFiles={setProofOfBillingToUpload}
             />
@@ -168,7 +168,7 @@ export const DocumentUploadForm: FunctionComponent = () => {
           <div className="flex flex-col ">
             <InvisibleInput
               ref={barangayCertificateRef}
-              accept="application/pdf, image/png, image/jpeg"
+              accept="application/pdf, image/png, image/jpeg, image/jpg"
               files={barangayCertificateToUpload}
               setFiles={setBarangayCertificateToUpload}
             />

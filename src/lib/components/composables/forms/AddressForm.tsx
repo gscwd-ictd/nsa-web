@@ -8,12 +8,11 @@ import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { useApplicationFormStepStore, useApplicationFormStore } from '@nsa/lib/zustand/useApplicationFormStore';
 import { LabelWithInput } from '../../ui/LabelWithInput';
-import { Spinner } from '../../ui/Spinner';
-import { Alert, AlertDescription, AlertTitle } from '../../ui/alert';
+
+import { Alert, AlertDescription, AlertTitle } from '../../ui/Alert';
 import { LucideLightbulb } from 'lucide-react';
 import { usePageContext } from '../new-service-application/NewServiceApplicationPage';
-import { Button } from '../../ui/button';
-import Webcam from 'react-webcam';
+import { Button } from '../../ui/Button';
 
 const Map = lazy(() => import('@nsa/lib/components/composables/map/MapComponent'));
 
@@ -60,18 +59,24 @@ export const AddressForm: FunctionComponent = () => {
       {/* Alert */}
       <div className="pt-2">
         <Alert>
-          <LucideLightbulb className="h-6 w-6 " />
-          <AlertTitle className="text-amber-500 px-10">Information</AlertTitle>
-          <AlertDescription className="px-10">
-            Drag the pointer to the exact location. You may use the slider on the left or the mouse scroll wheel to zoom
-            in and zoom out of the map. Use the pin finder button on the right-most part to center the map on the
-            pointer.
-          </AlertDescription>
+          <div className="flex gap-2">
+            <div className="flex justify-center items-start ">
+              <LucideLightbulb className="sm:h-10 sm:w-10 lg:h-12 lg:w-12" />
+            </div>
+            <div>
+              <AlertTitle className="text-amber-500">Information</AlertTitle>
+              <AlertDescription>
+                Drag the pointer to the exact location. You may use the slider on the left or the mouse scroll wheel to
+                zoom in and zoom out of the map. Use the pin finder button on the right-most part to center the pointer
+                on the map.
+              </AlertDescription>
+            </div>
+          </div>
         </Alert>
       </div>
 
       <div className="py-4">
-        <div className="sm:h-[16rem] lg:h-[22rem] relative">
+        <div className="sm:h-[16rem] h-[22rem] lg:h-[22rem] relative">
           <Map />
         </div>
 

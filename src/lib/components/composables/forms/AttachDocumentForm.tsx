@@ -1,7 +1,7 @@
 import { useApplicationFormStepStore } from '@nsa/lib/zustand/useApplicationFormStore';
-import { Button } from '../../ui/button';
+import { Button } from '../../ui/Button';
 import { DocumentUploadForm } from '../upload/DocumentUploadForm';
-import { Alert, AlertDescription, AlertTitle } from '../../ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '../../ui/Alert';
 import { LucideLightbulb } from 'lucide-react';
 import { FunctionComponent } from 'react';
 import { usePageContext } from '../new-service-application/NewServiceApplicationPage';
@@ -22,12 +22,18 @@ export const AttachDocumentForm: FunctionComponent = () => {
         {/* ALERT */}
         <div className=" pb-6">
           <Alert>
-            <LucideLightbulb className="h-6 w-6 " />
-            <AlertTitle className="text-amber-500 px-10">Information</AlertTitle>
-            <AlertDescription className="px-10">
-              We recommend attaching your files in PDF(.pdf)/JPEG(.jpeg)/PNG(.png) format. Take note that these
-              documents will only be uploaded when you submit your application. Maximum size per file is 2MB.
-            </AlertDescription>
+            <div className="flex gap-2">
+              <div className="flex justify-center items-start ">
+                <LucideLightbulb className="sm:h-10 sm:w-10 lg:h-12 lg:w-12" />
+              </div>
+              <div>
+                <AlertTitle className="text-amber-500 ">Information</AlertTitle>
+                <AlertDescription className="">
+                  We recommend attaching your files in PDF(.pdf)/JPEG(.jpeg)/PNG(.png) format. Take note that these
+                  documents will only be uploaded when you submit your application. Maximum size per file is 2MB.
+                </AlertDescription>
+              </div>
+            </div>
           </Alert>
         </div>
 

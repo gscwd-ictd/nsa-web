@@ -9,7 +9,9 @@ import { BsPersonStanding } from 'react-icons/bs';
 import { Address } from '@nsa/lib/utils/types/address';
 import { usePageContext } from '../new-service-application/NewServiceApplicationPage';
 import { FormButton } from '../../ui/FormButton';
-import { Button } from '../../ui/button';
+import { Button } from '../../ui/Button';
+import { Alert, AlertDescription, AlertTitle } from '../../ui/Alert';
+import { LucideLightbulb } from 'lucide-react';
 
 const ot = ['owner', 'tenant', undefined];
 
@@ -105,11 +107,23 @@ export const ApplicantDetailsForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {/* <div className="flex justify-between text-start">
-        <div className="text-xl font-medium text-gray-500">Enter the applicant&apos;s name and contact details</div>
+      <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10">
+        <span>Fill-out Applicant Information</span>
       </div>
 
-      <hr className="pb-6" /> */}
+      <Alert>
+        <div className="flex gap-2">
+          <div className="flex justify-center items-start ">
+            <LucideLightbulb className="sm:h-10 sm:w-10 lg:h-12 lg:w-12" />
+          </div>
+          <div>
+            <AlertTitle className="text-amber-500">Information</AlertTitle>
+            <AlertDescription>
+              Fill-out the applicant&apos;s full name, contact information, and service application address.
+            </AlertDescription>
+          </div>
+        </div>
+      </Alert>
 
       <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10">
         {/* <GoPersonFill /> */}

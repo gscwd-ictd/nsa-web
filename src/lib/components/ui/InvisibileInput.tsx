@@ -14,37 +14,66 @@ export const InvisibleInput = forwardRef<HTMLInputElement, InvisibleInputProps>(
     // handle compression
     const handleImgCompression = (e: ChangeEvent<HTMLInputElement>) => {
       const image = e.target.files![0];
-      new Compressor(image, {
-        quality: 0.8,
-        success: (compressedFile: File) => {
-          toast({
-            title: 'Compressing',
-            variant: 'default',
-            duration: 1500,
+
+      if (e.target.files && e.target.files!.length) {
+        // check file type, if type is image
+        if (
+          e.target.files[0].type === 'image/png' ||
+          e.target.files![0].type === 'image/jpeg' ||
+          e.target.files![0].type === 'image/jpg'
+        ) {
+          new Compressor(image, {
+            quality: 0.8,
+            success: (compressedFile: File) => {
+              toast({
+                title: 'Compressing',
+                variant: 'default',
+                duration: 1500,
+              });
+
+              // if compressed file is less than 2 MB
+              if (compressedFile.size < 2097152) {
+                const newFiles = [...files];
+
+                newFiles.push(compressedFile);
+                setFiles(newFiles);
+                toast({
+                  title: 'You have successfully attached a file',
+                  variant: 'success',
+                  duration: 1000,
+                });
+              }
+
+              // if compressed file is greater than 2 MB
+              else
+                toast({
+                  title: 'File is bigger than 2MB',
+                  variant: 'destructive',
+                  duration: 2000,
+                });
+            },
           });
+        }
 
-          // if compressed file is less than 2 MB
-          if (compressedFile.size < 2097152) {
+        // check file type, if type is application/pdf
+        else if (e.target.files![0].type === 'application/pdf') {
+          if (e.target.files[0].size < 2097152) {
             const newFiles = [...files];
-
-            newFiles.push(compressedFile);
+            newFiles.push(e.target.files[0]);
             setFiles(newFiles);
             toast({
               title: 'You have successfully attached a file',
               variant: 'success',
               duration: 1000,
             });
-          }
-
-          // if compressed file is greater than 2 MB
-          else
+          } else
             toast({
               title: 'File is bigger than 2MB',
               variant: 'destructive',
               duration: 2000,
             });
-        },
-      });
+        } else return;
+      }
     };
 
     return (
