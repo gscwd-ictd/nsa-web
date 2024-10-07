@@ -159,3 +159,11 @@ select:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px white inset !important;
   -webkit-text-fill-color: #1b1b1b !important;
 }
+
+.AccordionChevron {
+  transition: transform 300ms;
+}
+
+.AccordionTrigger[data-state='open'] > .AccordionChevron {
+  transform: rotate(90deg);
+}
