@@ -61,19 +61,19 @@ type ApplicationFormStepState = {
 
 export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
   coordinates: [125.17175493346683, 6.116349775689059],
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  nameExt: '',
+  firstName: 'Mikhail Anthony',
+  middleName: 'Mercado',
+  lastName: 'Sebua',
+  nameExt: 'III',
   sex: undefined,
   mobileNumber: '',
   emailAddress: '',
-  birthDate: '',
+  birthDate: '08/08/1993',
   isRepresentative: false,
-  lotNo: '',
-  barangay: '',
-  street: '',
-  subdivision: '',
+  lotNo: 'A4',
+  barangay: 'Cannery Site',
+  street: 'Ilang-Ilang',
+  subdivision: 'Cannery Housing',
   province: 'South Cotabato',
   city: 'General Santos',
   zipCode: '9500',
@@ -140,7 +140,7 @@ export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
 
 export const useApplicationFormStepStore = create<ApplicationFormStepState>()(
   devtools((set) => ({
-    currentStep: 4,
+    currentStep: 5,
     setCurrentStep: (currentStep) => set({ currentStep }),
   }))
 );

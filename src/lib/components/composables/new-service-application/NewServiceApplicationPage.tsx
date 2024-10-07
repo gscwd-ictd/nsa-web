@@ -16,6 +16,7 @@ import { AttachDocumentForm } from '../forms/AttachDocumentForm';
 import { createContext, MutableRefObject, useContext, useRef } from 'react';
 import gscwd_logo from '@images/main_logo_transparent2_wBG.png';
 import { SelfieForm } from '../forms/SelfieForm';
+import { SummarySubmit } from '../forms/SummarySubmit';
 
 const stepItems = [
   {
@@ -68,6 +69,7 @@ export const NewServiceApplicationPage = () => {
                 decoding="async"
               />
               <p className="text-2xl font-medium font-sans text-center">General Santos City Water District</p>
+              <div className="text-base font-normal font-sans text-center">New Service Application</div>
             </div>
             <div className=" ">
               <HorizontalStepperContainer>
@@ -91,6 +93,7 @@ export const NewServiceApplicationPage = () => {
             {currentStep === 2 && <ApplicantDetailsForm />}
             {currentStep === 3 && <AttachDocumentForm />}
             {currentStep === 4 && <SelfieForm />}
+            {currentStep === 5 && <SummarySubmit />}
           </section>
         </div>
       </div>
