@@ -50,6 +50,7 @@ export const AddressForm: FunctionComponent = () => {
     console.log(data);
     pageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     setCurrentStep(currentStep + 1);
+    localStorage.setItem('relatedAddress', JSON.stringify(data));
   };
 
   return (

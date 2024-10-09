@@ -2,25 +2,24 @@
 import { create } from 'zustand';
 
 import { Coordinate } from 'ol/coordinate';
-import { Sex } from '../utils/enums/sex';
 import { ApplicantDetails, Household } from '../utils/types/person';
 import { Address } from '../utils/types/address';
 import { Documents } from '../utils/types/documents';
 import { devtools } from 'zustand/middleware';
 
-type ApplicationFormState = Omit<ApplicantDetails, 'sex'> &
+export type ApplicationFormState = ApplicantDetails &
   Address &
   Household &
   Documents & {
     coordinates: Coordinate;
     isRepresentative: boolean;
-    sex: Sex | undefined;
+    applicationId: string;
 
+    setApplicationId: (applicationId: string) => void;
     setFirstName: (firstName: string) => void;
     setMiddleName: (middleName: string) => void;
     setLastName: (lastName: string) => void;
     setNameExt: (nameExt: string) => void;
-    setSex: (sex: Sex | undefined) => void;
     setMobileNumber: (mobileNumber: string) => void;
     setEmailAddress: (emailAddress: string) => void;
     setBirthDate: (birthDate: string) => void;
@@ -65,7 +64,6 @@ export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
   middleName: 'Mercado',
   lastName: 'Sebua',
   nameExt: 'III',
-  sex: undefined,
   mobileNumber: '09770912663',
   emailAddress: 'mikhailsebua@gmail.com',
   birthDate: '08/08/1993',
@@ -78,13 +76,11 @@ export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
   city: 'General Santos',
   zipCode: '9500',
   ownershipType: undefined,
-
-  landmark: '',
-  neighbors: '',
+  landmark: 'Near the plaza',
+  neighbors: 'Quintos, Villa, and Dela Cerna',
   remarks: '',
   noOfHouseInLot: 1,
   noOfPersonsInHousehold: 3,
-
   proofOfOwnership: [],
   proofOfBilling: [],
   barangayCertificate: [],
@@ -95,27 +91,24 @@ export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
   validIdToUpload: [],
   selfieWithValidId: [],
   selfieWithValidIdToUpload: [],
+  applicationId: '',
 
+  setApplicationId: (applicationId) => set({ applicationId }),
   setProofOfOwnership: (proofOfOwnership) => set({ proofOfOwnership }),
   setProofOfBilling: (proofOfBilling) => set({ proofOfBilling }),
   setBarangayCertificate: (barangayCertificate) => set({ barangayCertificate }),
   setValidId: (validId) => set({ validId }),
   setSelfieWithValidId: (selfieWithValidId) => set({ selfieWithValidId }),
-
   setProofOfOwnershipToUpload: (proofOfOwnershipToUpload) => set({ proofOfOwnershipToUpload }),
   setProofOfBillingToUpload: (proofOfBillingToUpload) => set({ proofOfBillingToUpload }),
   setBarangayCertificateToUpload: (barangayCertificateToUpload) => set({ barangayCertificateToUpload }),
   setValidIdToUpload: (validIdToUpload) => set({ validIdToUpload }),
   setSelfieWithValidIdToUpload: (selfieWithValidIdToUpload) => set({ selfieWithValidIdToUpload }),
-
   setNoOfPersonsInHousehold: (noOfPersonsInHousehold) => set({ noOfPersonsInHousehold }),
-
   setNoOfHouseInLot: (noOfHouseInLot) => set({ noOfHouseInLot }),
-
   setLandmark: (landmark) => set({ landmark }),
   setNeighbors: (neighbors) => set({ neighbors }),
   setRemarks: (remarks) => set({ remarks }),
-
   setOwnershipType: (ownershipType) => set({ ownershipType }),
   setLotNo: (lotNo) => set({ lotNo }),
   setBarangay: (barangay) => set({ barangay }),
@@ -124,17 +117,14 @@ export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
   setProvince: (province) => set({ province }),
   setCity: (city) => set({ city }),
   setZipCode: (zipCode) => set({ zipCode }),
-
   setFirstName: (firstName) => set({ firstName }),
   setMiddleName: (middleName) => set({ middleName }),
   setLastName: (lastName) => set({ lastName }),
   setNameExt: (nameExt) => set({ nameExt }),
-  setSex: (sex) => set({ sex }),
   setMobileNumber: (mobileNumber) => set({ mobileNumber }),
   setEmailAddress: (emailAddress) => set({ emailAddress }),
   setBirthDate: (birthDate) => set({ birthDate }),
   setIsRepresentative: (isRepresentative) => set({ isRepresentative }),
-
   setCoordinates: (coordinates) => set({ coordinates }),
 }));
 

@@ -5,7 +5,7 @@
 import { useApplicationFormStepStore } from '@nsa/lib/zustand/useApplicationFormStore';
 import { HorizontalStepperContainer, HorizontalStepperItem } from '../steps/HorizontalStepper';
 import { FaLocationDot } from 'react-icons/fa6';
-import { IoDocumentAttach, IoQrCode } from 'react-icons/io5';
+import { IoDocumentAttach } from 'react-icons/io5';
 import { FaAddressCard } from 'react-icons/fa6';
 // import { TbCameraSelfie } from 'react-icons/tb';
 import { HiDocumentCheck } from 'react-icons/hi2';
@@ -13,7 +13,7 @@ import { LuImagePlus } from 'react-icons/lu';
 import { ApplicantDetailsForm } from '../forms/ApplicantDetailsForm';
 import { AddressForm } from '../forms/AddressForm';
 import { AttachDocumentForm } from '../forms/AttachDocumentForm';
-import { createContext, MutableRefObject, useContext, useRef } from 'react';
+import { createContext, MutableRefObject, useContext, useEffect, useRef } from 'react';
 import gscwd_logo from '@images/main_logo_transparent2_wBG.png';
 import { SelfieForm } from '../forms/SelfieForm';
 import { SummarySubmit } from '../forms/SummarySubmit';
@@ -32,7 +32,7 @@ const stepItems = [
   { icon: <IoDocumentAttach className="w-4 h-4 lg:w-6 lg:h-6" />, step: 3, tooltip: 'Attach Necessary Documents' },
   { icon: <LuImagePlus className="w-4 h-4 lg:w-6 lg:h-6" />, step: 4, tooltip: 'Attach Valid ID and Selfie' },
   { icon: <HiDocumentCheck className="w-4 h-4 lg:w-6 lg:h-6" />, step: 5, tooltip: 'Submit Application' },
-  { icon: <IoQrCode className="w-4 h-4 lg:w-6 lg:h-6" />, step: 6, tooltip: 'Save QR Code' },
+  // { icon: <IoQrCode className="w-4 h-4 lg:w-6 lg:h-6" />, step: 6, tooltip: 'Save QR Code' },
 ];
 
 type PageState = {
@@ -44,6 +44,11 @@ const PageContext = createContext({} as PageState);
 export const NewServiceApplicationPage = () => {
   const currentStep = useApplicationFormStepStore((state) => state.currentStep);
   const pageRef = useRef<any>(null);
+
+  // clears the local storage if the user accesses this page for the first time, or refreshes the page
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   // const setCurrentStep = useApplicationFormStepStore((state) => state.setCurrentStep);
 
