@@ -19,7 +19,7 @@ type ApplicantInfo = ApplicantDetails & Omit<Address, 'landmark' | 'neighbors' |
 
 const ApplicantDetailsSchema: ZodType<ApplicantInfo> = z.object({
   firstName: z.string().min(1, { message: 'First Name is required' }),
-  middleName: z.string(),
+  middleName: z.string().min(1, { message: 'Middle Name is required' }),
   lastName: z.string().min(1, { message: 'Last Name is required' }),
   nameExt: z.string(),
   mobileNumber: z.string().min(11, { message: 'Mobile Number is required' }),
@@ -27,6 +27,7 @@ const ApplicantDetailsSchema: ZodType<ApplicantInfo> = z.object({
   birthDate: z.string().min(6, { message: 'Birthday is required' }),
   ownershipType: z.custom<'owner' | 'tenant' | undefined>((val) => ot.includes(val)),
   lotNo: z.string().trim(),
+  blockNo: z.string().trim(),
   barangay: z.string().trim().min(3, { message: 'Barangay is required' }),
   street: z.string().trim(),
   subdivision: z.string().trim().min(3, { message: 'Subdivision is required' }),
@@ -65,6 +66,7 @@ export const ApplicantDetailsForm = () => {
   const zipCode = useApplicationFormStore((state) => state.zipCode);
   const noOfPersonsInHousehold = useApplicationFormStore((state) => state.noOfPersonsInHousehold);
   const noOfHouseInLot = useApplicationFormStore((state) => state.noOfHouseInLot);
+  const blockNo = useApplicationFormStore((state) => state.blockNo);
 
   const setLotNo = useApplicationFormStore((state) => state.setLotNo);
   const setBarangay = useApplicationFormStore((state) => state.setBarangay);
@@ -85,6 +87,7 @@ export const ApplicantDetailsForm = () => {
   const setOwnershipType = useApplicationFormStore((state) => state.setOwnershipType);
   const setNoOfHouseInLot = useApplicationFormStore((state) => state.setNoOfHouseInLot);
   const setNoOfPersonsInHousehold = useApplicationFormStore((state) => state.setNoOfPersonsInHousehold);
+  const setBlockNo = useApplicationFormStore((state) => state.setBlockNo);
 
   // use form, assign it to a constant named "form"
   const form = useForm<ApplicantInfo>({
@@ -157,6 +160,7 @@ export const ApplicantDetailsForm = () => {
               onChange: (e) => setMiddleName(e.target.value),
             }),
           }}
+          isRequired
           isError={errors.middleName ? true : false}
           errorMessage={errors.middleName?.message?.toString()}
         />
@@ -265,6 +269,23 @@ export const ApplicantDetailsForm = () => {
           isError={errors?.lotNo ? true : false}
           errorMessage={errors?.lotNo?.message}
         />
+
+        <LabelWithInput
+          id="blockNo"
+          label="Block No."
+          placeholder="Block Number"
+          size="large"
+          autoComplete="off"
+          controller={{
+            ...register('blockNo', {
+              value: blockNo,
+              onChange: (e) => setBlockNo(e.target.value),
+            }),
+          }}
+          isError={errors?.blockNo ? true : false}
+          errorMessage={errors?.blockNo?.message}
+        />
+
         <LabelWithInput
           id="street"
           label="Street"
@@ -279,7 +300,7 @@ export const ApplicantDetailsForm = () => {
         />
         <LabelWithInput
           id="subdivision"
-          label="Subdivision"
+          label="Subdivision / Purok / Village"
           placeholder="Subdivision"
           autoComplete="off"
           size="large"

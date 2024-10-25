@@ -1,10 +1,10 @@
-import { ApplicationSuccess } from '@nsa/lib/components/composables/application/ApplicationSuccess';
+import { ApplicationDetails } from '@nsa/lib/components/composables/application/ApplicationDetails';
 
 export default function TrackApplicationId() {
   return (
     <>
       <div className="w-[100vw] h-[100vh] overflow-y-auto">
-        <ApplicationSuccess />
+        <ApplicationDetails />
       </div>
     </>
   );

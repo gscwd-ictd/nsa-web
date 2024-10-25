@@ -41,7 +41,7 @@ export const DocumentUploadForm: FunctionComponent = () => {
         <div>
           <div className="flex flex-col mb-2">
             <div className="flex gap-2 items-center text-xl font-medium text-gray-700">
-              <PiCertificateFill className="w-8 h-8 " /> Proof of Ownership
+              <PiCertificateFill className="w-8 h-8 " /> Proof of Lot Ownership
             </div>
           </div>
 

@@ -35,7 +35,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
               ) : (
                 <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
               )}
-              <span className="font-sans ">Proof of Ownership</span>
+              <span className="font-sans ">Proof of Lot Ownership</span>
             </div>
 
             {/* Proof of Billing */}
