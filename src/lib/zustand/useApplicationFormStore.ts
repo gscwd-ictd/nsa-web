@@ -15,6 +15,7 @@ export type ApplicationFormState = ApplicantDetails &
     isRepresentative: boolean;
     applicationId: string;
 
+    setBlockNo: (blockNo: string) => void;
     setApplicationId: (applicationId: string) => void;
     setFirstName: (firstName: string) => void;
     setMiddleName: (middleName: string) => void;
@@ -66,9 +67,10 @@ export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
   nameExt: 'III',
   mobileNumber: '09770912663',
   emailAddress: 'mikhailsebua@gmail.com',
-  birthDate: '08/08/1993',
+  birthDate: '1993-08-08',
   isRepresentative: false,
   lotNo: 'A4',
+  blockNo: '5',
   barangay: 'Cannery Site',
   street: 'Ilang-Ilang',
   subdivision: 'Cannery Housing',
@@ -93,6 +95,7 @@ export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
   selfieWithValidIdToUpload: [],
   applicationId: '',
 
+  setBlockNo: (blockNo) => set({ blockNo }),
   setApplicationId: (applicationId) => set({ applicationId }),
   setProofOfOwnership: (proofOfOwnership) => set({ proofOfOwnership }),
   setProofOfBilling: (proofOfBilling) => set({ proofOfBilling }),

@@ -1,5 +1,6 @@
 export type Address = {
   lotNo: string;
+  blockNo: string;
   barangay: string;
   street: string;
   subdivision: string;

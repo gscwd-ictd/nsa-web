@@ -9,6 +9,7 @@ type ServiceAddressProps = {
 
 export const ServiceAddress: FunctionComponent<ServiceAddressProps> = ({ defaultOpen = true }) => {
   const lotNo = useApplicationFormStore((state) => state.lotNo);
+  const blockNo = useApplicationFormStore((state) => state.blockNo);
   const street = useApplicationFormStore((state) => state.street);
   const subdivision = useApplicationFormStore((state) => state.subdivision);
   const barangay = useApplicationFormStore((state) => state.barangay);
@@ -33,6 +34,7 @@ export const ServiceAddress: FunctionComponent<ServiceAddressProps> = ({ default
         </AccordionTrigger>
         <AccordionContent>
           <LabelValue id="lotNo" label="Lot No." value={lotNo} />
+          <LabelValue id="blockNo" label="Block No." value={blockNo} />
           <LabelValue id="street" label="Street" value={street ?? 'N/A'} />
           <LabelValue id="subdivision" label="Subdivision" value={subdivision} />
           <LabelValue id="barangay" label="Barangay" value={barangay} />
