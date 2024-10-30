@@ -11,7 +11,7 @@ export type ApplicationFormState = ApplicantDetails &
   Address &
   Household &
   Documents & {
-    coordinates: Coordinate;
+    coordinates: Coordinate | undefined;
     isRepresentative: boolean;
     applicationId: string;
 
@@ -60,26 +60,26 @@ type ApplicationFormStepState = {
 };
 
 export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
-  coordinates: [125.17175493346683, 6.116349775689059],
-  firstName: 'Mikhail Anthony',
-  middleName: 'Mercado',
-  lastName: 'Sebua',
+  coordinates: undefined,
+  firstName: 'Richard Vincent',
+  middleName: 'Pavitos',
+  lastName: 'Spaniard',
   nameExt: 'III',
-  mobileNumber: '09770912663',
-  emailAddress: 'mikhailsebua@gmail.com',
-  birthDate: '1993-08-08',
+  mobileNumber: '09788884548',
+  emailAddress: 'richardvincentespanyol@gmail.com',
+  birthDate: '1982-03-10',
   isRepresentative: false,
   lotNo: 'A4',
   blockNo: '5',
-  barangay: 'Cannery Site',
-  street: 'Ilang-Ilang',
-  subdivision: 'Cannery Housing',
+  barangay: 'City Heights',
+  street: 'N/A',
+  subdivision: 'Christ the King',
   province: 'South Cotabato',
-  city: 'General Santos',
+  city: 'General Santos City',
   zipCode: '9500',
   ownershipType: undefined,
   landmark: 'Near the plaza',
-  neighbors: 'Quintos, Villa, and Dela Cerna',
+  neighbors: 'Macaludos, Villa, and Dela Cerna',
   remarks: '',
   noOfHouseInLot: 1,
   noOfPersonsInHousehold: 3,
@@ -133,7 +133,7 @@ export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
 
 export const useApplicationFormStepStore = create<ApplicationFormStepState>()(
   devtools((set) => ({
-    currentStep: 5,
+    currentStep: 1,
     setCurrentStep: (currentStep) => set({ currentStep }),
   }))
 );

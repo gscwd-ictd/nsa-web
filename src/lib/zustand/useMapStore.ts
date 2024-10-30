@@ -33,6 +33,14 @@ type MapStore = {
   view: View | null;
   setView: (view: View | null) => void;
 
+  // is inside turf
+  isInside: boolean;
+  setIsInside: (isInside: boolean) => void;
+
+  // loading is inside
+  isInsideLoading: boolean;
+  setIsInsideLoading: (isInsideLoading: boolean) => void;
+
   mapview: { center: Coordinate; zoom: number; resolution?: number };
   setMapview: (mapview: MapStore['mapview']) => void;
 };
@@ -41,6 +49,7 @@ export const useMapStore = create<MapStore>((set) => ({
   mapview: {
     center: [13934003.453171618, 682500.5003237098],
     // center: [125.171, 6.1164],
+    // center: [740508.545887596, 676825.682834923],
     zoom: 11,
   },
   setMapview: (mapview) => set({ mapview }),
@@ -49,11 +58,20 @@ export const useMapStore = create<MapStore>((set) => ({
   viewport: {
     center: [13934003.453171618, 682500.5003237098],
     // center: [125.171, 6.1164],
+    // center: [740508.545887596, 676825.682834923],
     zoom: 11,
     minZoom: 15,
   },
 
   setViewport: (viewport) => set({ viewport }),
+
+  // is inside
+  isInside: false,
+  setIsInside: (isInside) => set({ isInside }),
+
+  // loading is inside
+  isInsideLoading: false,
+  setIsInsideLoading: (isInsideLoading) => set({ isInsideLoading }),
 
   // Map reference
   mapRef: null,
