@@ -31,7 +31,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Proof of ownership */}
             <div className="flex gap-1 items-center">
               {proofOfOwnershipToUpload.length > 0 ? (
-                <MdCheckCircle className="w-6 h-6 bg-green-500" />
+                <MdCheckCircle className="w-6 h-6 fill-green-500" />
               ) : (
                 <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
               )}
@@ -41,7 +41,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Proof of Billing */}
             <div className="flex gap-1 items-center">
               {proofOfBillingToUpload.length > 0 ? (
-                <MdCheckCircle className="w-6 h-6 bg-green-500" />
+                <MdCheckCircle className="w-6 h-6 fill-green-500" />
               ) : (
                 <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
               )}

@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RelatedAddress } from '@nsa/lib/utils/types/address';
-import { FunctionComponent, lazy, Suspense, useRef } from 'react';
+import { FunctionComponent, lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { useApplicationFormStepStore, useApplicationFormStore } from '@nsa/lib/zustand/useApplicationFormStore';
@@ -13,6 +13,69 @@ import { Alert, AlertDescription, AlertTitle } from '../../ui/Alert';
 import { LucideLightbulb } from 'lucide-react';
 import { usePageContext } from '../new-service-application/NewServiceApplicationPage';
 import { Button } from '../../ui/Button';
+import { fromLonLat, toLonLat } from 'ol/proj';
+import { Spinner } from '../../ui/Spinner';
+import { useMapStore } from '@nsa/lib/zustand/useMapStore';
+
+// polygon
+const polygon = {
+  type: 'FeatureCollection',
+  name: 'EAST',
+  crs: {
+    type: 'name',
+    properties: {
+      name: 'urn:ogc:def:crs:EPSG::32651',
+    },
+  },
+  features: [
+    {
+      type: 'Feature',
+      properties: {
+        id: null,
+        GID: null,
+        BARANGAY: 'EAST',
+        POPULATION: 3387,
+      },
+      geometry: {
+        type: 'MultiPolygon',
+        coordinates: [
+          [
+            [
+              [740508.545887596, 676825.682834923],
+              [741203.231432956, 676835.337107005],
+              [741203.235178303, 676833.663664634],
+              [741201.740885076, 676833.646497679],
+              [741204.542166176, 676249.694084849],
+              [741059.806582108, 676247.551962371],
+              [741058.681129625, 676160.329394909],
+              [740512.766334409, 676157.656445262],
+              [740505.921468564, 676132.37955278],
+              [740494.090857263, 676102.808221894],
+              [740483.767188183, 676085.758393185],
+              [740463.985003333, 676064.542837459],
+              [740440.491182742, 676044.284692759],
+              [740428.955294788, 676037.391296298],
+              [740417.419406833, 676030.497899837],
+              [740390.549228793, 676021.353598409],
+              [740354.112704644, 676014.460201949],
+              [740346.283843708, 676016.04666716],
+              [740322.177990428, 676020.931553728],
+              [740287.570326564, 676032.326760122],
+              [740264.639232216, 676045.410145241],
+              [740241.426774746, 676065.527608382],
+              [740218.495680397, 676090.709607697],
+              [740203.161390311, 676119.830690705],
+              [740198.237535697, 676154.438354568],
+              [740189.14148286, 676542.258606697],
+              [740507.006543738, 676545.178200551],
+              [740508.545887596, 676825.682834923],
+            ],
+          ],
+        ],
+      },
+    },
+  ],
+};
 
 const Map = lazy(() => import('@nsa/lib/components/composables/map/MapComponent'));
 
@@ -35,14 +98,17 @@ export const AddressForm: FunctionComponent = () => {
   } = form;
 
   const currentStep = useApplicationFormStepStore((state) => state.currentStep);
-
   const landmark = useApplicationFormStore((state) => state.landmark);
   const neighbors = useApplicationFormStore((state) => state.neighbors);
   const remarks = useApplicationFormStore((state) => state.remarks);
+  const coordinates = useApplicationFormStore((state) => state.coordinates);
   const setCurrentStep = useApplicationFormStepStore((state) => state.setCurrentStep);
   const setLandmark = useApplicationFormStore((state) => state.setLandmark);
   const setNeighbors = useApplicationFormStore((state) => state.setNeighbors);
   const setRemarks = useApplicationFormStore((state) => state.setRemarks);
+  const isInside = useMapStore((state) => state.isInside);
+  const isInsideLoading = useMapStore((state) => state.isInsideLoading);
+  const setIsInsideLoading = useMapStore((state) => state.setIsInsideLoading);
 
   const { pageRef } = usePageContext();
 
@@ -52,6 +118,10 @@ export const AddressForm: FunctionComponent = () => {
     setCurrentStep(currentStep + 1);
     localStorage.setItem('relatedAddress', JSON.stringify(data));
   };
+
+  useEffect(() => {
+    setTimeout(() => setIsInsideLoading(false), 300);
+  }, [isInsideLoading]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} id="addressForm">
@@ -79,6 +149,24 @@ export const AddressForm: FunctionComponent = () => {
       <div className="py-4">
         <div className="sm:h-[16rem] h-[22rem] lg:h-[22rem] relative">
           <Map />
+        </div>
+
+        <div className="mt-4 w-full flex justify-center">
+          {isInsideLoading ? (
+            <div className="w-full flex justify-center">
+              <Spinner color="blue" borderSize={4} />
+            </div>
+          ) : (
+            <>
+              {isInside == true && coordinates !== undefined ? (
+                <span className="bg-emerald-500 text-white px-2 rounded text-sm">Service location available</span>
+              ) : isInside == false && coordinates !== undefined ? (
+                <span className="bg-rose-500 text-white px-2 rounded text-sm">Service location unavailable</span>
+              ) : (
+                <span className="text-gray-500 px-2 text-sm">No selected coordinates</span>
+              )}
+            </>
+          )}
         </div>
 
         <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10 ">
@@ -136,7 +224,9 @@ export const AddressForm: FunctionComponent = () => {
         </div>
       </div>
 
-      <Button variant="alternative">Confirm</Button>
+      <Button variant={isInside ? 'alternative' : 'destructive'} disabled={isInside !== true ? true : false}>
+        Confirm
+      </Button>
     </form>
   );
 };

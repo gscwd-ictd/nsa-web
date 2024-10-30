@@ -12,7 +12,6 @@ export type TimelineItemProps = {
 };
 
 export const TimelineItem: FunctionComponent<TimelineItemProps> = ({
-  active = false,
   title = '',
   content = '',
   subtitle = '',
@@ -84,7 +83,7 @@ export const TimelineItem: FunctionComponent<TimelineItemProps> = ({
               N/A
             </time>
           ) : (
-            <time className="sm:absolute left-0 items-center justify-center text-base font-sans  w-32 h-full text-gray-500">
+            <time className="sm:absolute left-0 items-center justify-center text-base -mt-1.5 font-sans  w-32 h-full text-gray-500">
               {timeStamp}
             </time>
           )}

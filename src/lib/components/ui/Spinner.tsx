@@ -16,7 +16,7 @@ const styles = {
     borderSize?: number
   ) =>
     cls(
-      `border-${borderSize}  animate-spin rounded-full`,
+      `border-${borderSize ? borderSize : '4'} animate-spin rounded-full`,
       {
         'border-blue-600 border-r-blue-200': color === 'blue',
         'border-red-600 border-r-red-200': color === 'red',
