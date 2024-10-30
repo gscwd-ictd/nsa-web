@@ -27,13 +27,14 @@ export const LabelValue = React.forwardRef<HTMLDivElement, React.HTMLAttributes<
                 : size === 'xl'
                 ? 'text-xl'
                 : 'text-base'
-            } grid grid-cols-2 gap-2 hover:underline font-sans`}
+            } grid grid-cols-6 gap-2 hover:underline font-sans`}
             ref={ref}
           >
-            <label htmlFor={id} className="text-gray-500">
+            <label htmlFor={id} className="text-gray-500 col-span-1">
               {label}
             </label>
-            <div className="font-normal text-gray-900">{value}</div>
+            <div className="col-span-1" />
+            <div className="font-normal text-gray-900 col-span-4">{value}</div>
           </div>
         ) : orientation === 'vertical' ? (
           <div

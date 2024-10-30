@@ -71,7 +71,7 @@ export const ApplicationDetails = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 text-start  sm:w-full lg:w-1/2 sm:px-5 lg:px-0 px-5">
+          <div className="w-full text-start">
             <LabelValue label="Status" value="FOR SURVEY FEE PAYMENT" id="status" />
             <LabelValue label="Address" value={address} id="address" />
             <LabelValue label="Applicant" value={fullName} id="fullName" />
