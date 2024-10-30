@@ -64,15 +64,21 @@ export const PfdfForm = () => {
                     <div
                       className="border w-6 h-6 items-center text-center rounded select-none text-primary"
                       role="button"
-                      onClick={() => setTempBathtubQty((qty) => (qty === 0 ? qty : qty - 1))}
+                      onClick={() => {
+                        setBathtubQty((qty) => (qty === 0 ? qty : qty - 1));
+                        setTempBathtubQty((qty) => (qty === 0 ? qty : qty - 1));
+                      }}
                     >
                       -
                     </div>
-                    <div className="select-none">{tempBathtubQty}</div>
+                    <div className="select-none">{bathtubQty}</div>
                     <div
                       className="border w-6 h-6 items-center text-center rounded select-none text-primary"
                       role="button"
-                      onClick={() => setTempBathtubQty((qty) => qty + 1)}
+                      onClick={() => {
+                        setBathtubQty((qty) => qty + 1);
+                        setTempBathtubQty((qty) => qty + 1);
+                      }}
                     >
                       +
                     </div>
