@@ -27,7 +27,7 @@ export const ServiceAddress: FunctionComponent<ServiceAddressProps> = ({ default
         className="sm:px-0 md:px-2  data-[state=closed]:lg:py-2 data-[state=closed]:lg:px-5 data-[state=open]:lg:p-5 data-[state=open]:h-full "
       >
         <AccordionTrigger className="data-[state=open]:pb-6">
-          <div className="text-2xl col-span-2 font-medium text-gray-700 flex items-center gap-2">
+          <div className="text-lg col-span-2 font-medium text-gray-700 flex items-center gap-2">
             {/* <BiSolidLeaf className="h-6 w-6 fill-green-600" /> */}
             <span>Service Application Address </span>
           </div>

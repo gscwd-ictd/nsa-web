@@ -7,7 +7,6 @@ import { HorizontalStepperContainer, HorizontalStepperItem } from '../steps/Hori
 import { FaLocationDot } from 'react-icons/fa6';
 import { IoDocumentAttach } from 'react-icons/io5';
 import { FaAddressCard } from 'react-icons/fa6';
-// import { TbCameraSelfie } from 'react-icons/tb';
 import { HiDocumentCheck } from 'react-icons/hi2';
 import { LuCalculator, LuImagePlus } from 'react-icons/lu';
 import { ApplicantDetailsForm } from '../forms/ApplicantDetailsForm';
@@ -17,7 +16,7 @@ import { createContext, MutableRefObject, useContext, useEffect, useRef } from '
 import gscwd_logo from '@images/main_logo_transparent2_wBG.png';
 import { SelfieForm } from '../forms/SelfieForm';
 import { SummarySubmit } from '../forms/SummarySubmit';
-import { PfdfForm } from '../forms/PfdfForm';
+import { NewPfdfForm } from '../forms/NewPfdfForm';
 
 const stepItems = [
   {
@@ -68,7 +67,7 @@ export const NewServiceApplicationPage = () => {
           <div className="fixed -top-72 -right-4  w-[80%] h-[calc(100vw*0.5)]  bg-emerald-400 rounded-full blur-3xl filter opacity-70  mix-blend-multiply" />
         </div>
         <div className="w-full relative h-fit sm:py-0 lg:py-10 gap-0  flex justify-center">
-          <section className="bg-white h-fit rounded border w-full sm:mx-[5%] sm:my-[2%] lg:mx-[20%] sm:py-16 sm:px-8 py-8 px-4 lg:p-16 shadow-lg">
+          <section className="bg-white h-fit rounded border w-full sm:mx-[5%] sm:my-[2%] lg:mx-[15%] sm:py-16 sm:px-8 py-8 px-4 lg:p-16 shadow-lg">
             <div className="w-full flex justify-center items-center flex-col pb-8">
               <img
                 src={gscwd_logo.src}
@@ -104,7 +103,7 @@ export const NewServiceApplicationPage = () => {
             {currentStep === 2 && <ApplicantDetailsForm />}
             {currentStep === 3 && <AttachDocumentForm />}
             {currentStep === 4 && <SelfieForm />}
-            {currentStep === 5 && <PfdfForm />}
+            {currentStep === 5 && <NewPfdfForm />}
             {currentStep === 6 && <SummarySubmit />}
           </section>
         </div>

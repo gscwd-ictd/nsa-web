@@ -21,7 +21,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
         className="sm:px-0 md:px-2  data-[state=closed]:lg:py-2 data-[state=closed]:lg:px-5 data-[state=open]:lg:p-5 data-[state=open]:h-full "
       >
         <AccordionTrigger className="data-[state=open]:pb-6">
-          <div className="text-2xl col-span-2 font-medium text-gray-700 flex  items-center gap-2">
+          <div className="text-lg col-span-2 font-medium text-gray-700 flex  items-center gap-2">
             {/* <IoDocumentAttach className="h-6 w-6 fill-indigo-600" /> */}
             <span> Attached documents</span>
           </div>
@@ -35,7 +35,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
               ) : (
                 <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
               )}
-              <span className="font-sans ">Proof of Lot Ownership</span>
+              <span>Proof of Lot Ownership</span>
             </div>
 
             {/* Proof of Billing */}
@@ -45,7 +45,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
               ) : (
                 <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
               )}
-              <span className="font-sans ">Proof of Billing</span>
+              <span>Proof of Billing</span>
             </div>
 
             {/* Barangay Certificate */}
@@ -55,7 +55,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
               ) : (
                 <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
               )}
-              <span className="font-sans ">Barangay Certificate</span>
+              <span>Barangay Certificate</span>
             </div>
 
             {/* Valid id */}
@@ -65,7 +65,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
               ) : (
                 <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
               )}
-              <span className="font-sans ">Valid ID</span>
+              <span>Valid ID</span>
             </div>
 
             {/* Selfie */}
@@ -75,7 +75,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
               ) : (
                 <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
               )}
-              <span className="font-sans ">Selfie with Valid ID</span>
+              <span>Selfie with Valid ID</span>
             </div>
           </div>
         </AccordionContent>

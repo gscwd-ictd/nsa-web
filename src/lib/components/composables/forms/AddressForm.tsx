@@ -147,7 +147,7 @@ export const AddressForm: FunctionComponent = () => {
       </div>
 
       <div className="py-4">
-        <div className="sm:h-[16rem] h-[22rem] lg:h-[22rem] relative">
+        <div className="sm:h-[16rem] h-[44rem] lg:h-[44rem] relative">
           <Map />
         </div>
 

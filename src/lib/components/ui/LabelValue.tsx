@@ -27,7 +27,7 @@ export const LabelValue = React.forwardRef<HTMLDivElement, React.HTMLAttributes<
                 : size === 'xl'
                 ? 'text-xl'
                 : 'text-base'
-            } grid grid-cols-6 gap-2 hover:underline font-sans`}
+            } grid grid-cols-6 gap-2 hover:underline`}
             ref={ref}
           >
             <label htmlFor={id} className="text-gray-500 col-span-1">

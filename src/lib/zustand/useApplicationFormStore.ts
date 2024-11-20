@@ -133,7 +133,7 @@ export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
 
 export const useApplicationFormStepStore = create<ApplicationFormStepState>()(
   devtools((set) => ({
-    currentStep: 1,
+    currentStep: 5,
     setCurrentStep: (currentStep) => set({ currentStep }),
   }))
 );
