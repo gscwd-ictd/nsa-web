@@ -58,10 +58,10 @@ export const NewPfdfForm = () => {
       </Alert>
 
       <div className="flex flex-row sm:flex-col lg:flex-row gap-4">
-        <div className="sm:w-full lg:w-[70%] w-full  border rounded-md p-4 mt-4">
+        <div className="w-full border rounded-md p-4 mt-4 bg-white">
           <div className="">
             {/* General Category */}
-            <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative">
+            <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative">
               {/* GENERAL */}
               {items &&
                 items.map((item: ItemWithQty) => {
@@ -182,7 +182,7 @@ export const NewPfdfForm = () => {
             <div className="px-2 pt-5 pb-1">
               <span className="px-2  bg-green-600 text-white text-base rounded">Sinks</span>
             </div>
-            <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative">
+            <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative">
               {items &&
                 items.map((item) => {
                   if (item.category === 'sink')
@@ -300,7 +300,7 @@ export const NewPfdfForm = () => {
             <div className="px-2 pt-5 pb-1">
               <span className="px-2  bg-green-600 text-white text-base rounded">Urinals</span>
             </div>
-            <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative">
+            <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative">
               {items &&
                 items.map((item) => {
                   if (item.category === 'urinal')
@@ -415,138 +415,6 @@ export const NewPfdfForm = () => {
             </div>
           </div>
         </div>
-
-        {/* Summary */}
-        <div className="sm:hidden hidden md:hidden lg:block lg:w-[30%] px-4 my-4 border rounded-md h-[44rem] max-h-screen overflow-y-auto">
-          {totalQty > 0 ? (
-            <>
-              <span className="w-full flex justify-center font-medium py-2">Summary</span>
-              <div className="grid grid-cols-1 gap-4">
-                {declaredItems.map((declaredItem, idx) => {
-                  // setTempItemQty!(itemQty!);
-
-                  return (
-                    <div className="flex items-center" key={declaredItem.id}>
-                      <div className="flex gap-2 items-center w-full">
-                        <div className="grid grid-cols-3 gap-0 w-1/3 items-center ">
-                          {declaredItem.qty > 1 ? (
-                            <button
-                              className="border flex justify-center py-2 items-center text-center font-medium rounded select-none text-primary"
-                              onClick={() => {
-                                setItems(
-                                  items.map((item) => {
-                                    return { ...item, qty: item.id === declaredItem.id ? item.qty - 1 : item.qty };
-                                  })
-                                );
-
-                                // just subtract the quantity from the array
-                                if (declaredItem.qty > 1) {
-                                  setDeclaredItems(
-                                    declaredItems.map((item) => {
-                                      return {
-                                        ...item,
-                                        qty: item.name === declaredItem.name ? item.qty - 1 : item.qty,
-                                      };
-                                    })
-                                  );
-                                }
-                                // remove the element from the array based on the index
-                                else if (declaredItem.qty === 1) {
-                                  // deep copy of declaredItems
-                                  const newDeclaredItems = declaredItems.map((declaredItem) => {
-                                    return declaredItem;
-                                  });
-                                  newDeclaredItems.splice(idx, 1);
-
-                                  setDeclaredItems(newDeclaredItems);
-                                }
-                              }}
-                            >
-                              <HiMinus className="size-3 shrink-0 stroke-[1.5]" />
-                            </button>
-                          ) : (
-                            <button
-                              className=" flex justify-center items-center text-center rounded select-none text-gray-500"
-                              onClick={() => {
-                                setItems(
-                                  items.map((item) => {
-                                    return { ...item, qty: item.id === declaredItem.id ? item.qty - 1 : item.qty };
-                                  })
-                                );
-
-                                // just subtract the quantity from the array
-                                if (declaredItem.qty > 1) {
-                                  setDeclaredItems(
-                                    declaredItems.map((item) => {
-                                      return {
-                                        ...item,
-                                        qty: item.name === declaredItem.name ? item.qty - 1 : item.qty,
-                                      };
-                                    })
-                                  );
-                                }
-                                // remove the element from the array based on the index
-                                else if (declaredItem.qty === 1) {
-                                  // deep copy of declaredItems
-                                  const newDeclaredItems = declaredItems.map((declaredItem) => {
-                                    return declaredItem;
-                                  });
-                                  newDeclaredItems.splice(idx, 1);
-
-                                  setDeclaredItems(newDeclaredItems);
-                                }
-                              }}
-                            >
-                              <Trash className="size-5 shrink-0 stroke-[1.5]" />
-                            </button>
-                          )}
-
-                          <div className="select-none text-center items-center text-sm">{declaredItem.qty}</div>
-                          <button
-                            className="border flex py-2 justify-center items-center text-center rounded select-none text-primary"
-                            onClick={() => {
-                              // setItemQty!(itemQty! + 1);
-                              setDeclaredItems(
-                                declaredItems.map((item) => {
-                                  return {
-                                    ...item,
-                                    qty: item.name === declaredItem.name ? item.qty + 1 : item.qty,
-                                  };
-                                })
-                              );
-
-                              setItems(
-                                items.map((item) => {
-                                  return { ...item, qty: item.id === declaredItem.id ? item.qty + 1 : item.qty };
-                                })
-                              );
-                            }}
-                          >
-                            <HiPlus className="size-3 shrink-0 stroke-[1.5]" />
-                          </button>
-                        </div>
-                        {/* <Image
-                          src={declaredItem.imgUrl!}
-                          alt={declaredItem.name}
-                          width={52}
-                          height={52}
-                          className=" border border-gray-100/90 rounded overflow-hidden"
-                        /> */}
-                        <div className="w-2/3">
-                          <div className="text-sm font-medium font-sans">{declaredItem.name}</div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          ) : totalQty === 0 ? (
-            <div className="flex w-full h-full  justify-center text-center items-center font-medium text-gray-700">
-              You haven&apos;t added anything!
-            </div>
-          ) : null}
-        </div>
       </div>
 
       <div className="flex gap-4 mt-10">
@@ -575,7 +443,7 @@ export const NewPfdfForm = () => {
 
       <AlertDialog open={dialogSummaryIsOpen} onOpenChange={setDialogSummaryIsOpen}>
         <AlertDialogTrigger>
-          <div className="fixed items-center sm:block md:block lg:hidden py-2 bottom-1 left-1/2 transform -translate-x-1/2 bg-green-600 px-4 text-xl text-white rounded-md">
+          <div className="fixed items-center  py-2 bottom-2 left-1/2 transform -translate-x-1/2 bg-green-600 px-4 text-xl text-white rounded-md">
             <div className="flex gap-2 items-center">
               Summary{' '}
               {totalQty > 0 && (
@@ -600,7 +468,7 @@ export const NewPfdfForm = () => {
                     return (
                       <div className="flex items-center" key={declaredItem.id}>
                         <div className="flex gap-2 items-center w-full">
-                          <div className="grid grid-cols-3 gap-0 w-1/3 items-center ">
+                          <div className="grid grid-cols-4 gap-0 w-1/3 items-center ">
                             {declaredItem.qty > 1 ? (
                               <button
                                 className="border flex justify-center py-2 items-center text-center font-medium rounded select-none text-primary"
@@ -726,7 +594,7 @@ export const NewPfdfForm = () => {
             ) : null}
           </div>
           <AlertDialogFooter>
-            <AlertDialogAction>Close</AlertDialogAction>
+            <AlertDialogAction type="button">Close</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

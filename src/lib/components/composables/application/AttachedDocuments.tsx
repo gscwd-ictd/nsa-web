@@ -1,4 +1,4 @@
-import { MdCheckCircle, MdOutlineRadioButtonUnchecked } from 'react-icons/md';
+import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../ui/Accordion';
 import { useApplicationFormStore } from '@nsa/lib/zustand/useApplicationFormStore';
 import { FunctionComponent } from 'react';
@@ -31,9 +31,9 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Proof of ownership */}
             <div className="flex gap-1 items-center">
               {proofOfOwnershipToUpload.length > 0 ? (
-                <MdCheckCircle className="w-6 h-6 fill-green-500" />
+                <MdCheckBox className="w-6 h-6 fill-green-500" />
               ) : (
-                <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
+                <MdCheckBoxOutlineBlank className="w-6 h-6 bg-white" />
               )}
               <span>Proof of Lot Ownership</span>
             </div>
@@ -41,9 +41,9 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Proof of Billing */}
             <div className="flex gap-1 items-center">
               {proofOfBillingToUpload.length > 0 ? (
-                <MdCheckCircle className="w-6 h-6 fill-green-500" />
+                <MdCheckBox className="w-6 h-6 fill-green-500" />
               ) : (
-                <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
+                <MdCheckBoxOutlineBlank className="w-6 h-6 bg-white" />
               )}
               <span>Proof of Billing</span>
             </div>
@@ -51,9 +51,9 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Barangay Certificate */}
             <div className="flex gap-1 items-center">
               {barangayCertificateToUpload.length > 0 ? (
-                <MdCheckCircle className="w-6 h-6 fill-green-500" />
+                <MdCheckBox className="w-6 h-6 fill-green-500" />
               ) : (
-                <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
+                <MdCheckBoxOutlineBlank className="w-6 h-6 bg-white" />
               )}
               <span>Barangay Certificate</span>
             </div>
@@ -61,9 +61,9 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Valid id */}
             <div className="flex gap-1 items-center">
               {validIdToUpload.length > 0 ? (
-                <MdCheckCircle className="w-6 h-6 fill-green-500" />
+                <MdCheckBox className="w-6 h-6 fill-green-500" />
               ) : (
-                <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
+                <MdCheckBoxOutlineBlank className="w-6 h-6 bg-white" />
               )}
               <span>Valid ID</span>
             </div>
@@ -71,9 +71,9 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Selfie */}
             <div className="flex gap-1 items-center">
               {selfieWithValidIdToUpload.length > 0 ? (
-                <MdCheckCircle className="w-6 h-6 fill-green-500" />
+                <MdCheckBox className="w-6 h-6 fill-green-500" />
               ) : (
-                <MdOutlineRadioButtonUnchecked className="w-6 h-6 bg-white" />
+                <MdCheckBoxOutlineBlank className="w-6 h-6 bg-white" />
               )}
               <span>Selfie with Valid ID</span>
             </div>
