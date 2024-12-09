@@ -2,36 +2,33 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import { ZoomSlider } from 'ol/control';
 import Zoom from 'ol/control/Zoom';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { mapViewExtent } from '@nsa/lib/utils/enums/mapViewExtent';
-import VectorSource from 'ol/source/Vector';
-import VectorLayer from 'ol/layer/Vector';
-import Feature from 'ol/Feature';
-import Point from 'ol/geom/Point';
-import Style from 'ol/style/Style';
-import Icon from 'ol/style/Icon';
-import markerIcon from '../../../../../public/images/map-marker.svg';
+import { FunctionComponent, useEffect } from 'react';
 import { useMapStore } from '@nsa/lib/zustand/useMapStore';
 import { useApplicationFormStore } from '@nsa/lib/zustand/useApplicationFormStore';
 import { mapStyles } from '../../openlayers/MapLayer';
 import * as turf from '@turf/turf';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import Feature from 'ol/Feature';
+import { Point } from 'ol/geom';
+import Style from 'ol/style/Style';
+import Icon from 'ol/style/Icon';
+import markerIcon from '@images/map-marker.svg';
+import { useMap } from '@nsa/lib/providers/MapProvider';
+import { defaults as defaultInteractions } from 'ol/interaction';
 
 const MapComponent: FunctionComponent = () => {
-  // setMapRef to enable the map references to be used in other components
-  const mapRef = useRef<HTMLDivElement>(null);
+  const { map, mapRef, setMap, markerLayerRef } = useMap();
 
-  const [map, setMap] = useState<Map | null>(null);
   const viewport = useMapStore((state) => state.viewport);
+  const setViewport = useMapStore((state) => state.setViewport);
   const setMapRef = useMapStore((state) => state.setMapRef);
   const setIsInside = useMapStore((state) => state.setIsInside);
   const setIsInsideLoading = useMapStore((state) => state.setIsInsideLoading);
-
   const setCoordinates = useApplicationFormStore((state) => state.setCoordinates);
 
   // initialize the map
   useEffect(() => {
-    // marker
-
     const myMap = new Map({
       target: mapRef.current!,
       layers: [mapStyles],
@@ -41,40 +38,21 @@ const MapComponent: FunctionComponent = () => {
         minZoom: viewport.minZoom,
         // projection: 'EPSG:4326',
       }),
+      interactions: defaultInteractions({
+        doubleClickZoom: true,
+        dragPan: true,
+        mouseWheelZoom: true,
+      }),
       controls: [],
     });
-
-    // const marker = new VectorLayer({
-    //   source: new VectorSource({
-    //     features: [
-    //       new Feature({
-    //         geometry: new Point([13933794.669609006, 682557.8280949236]),
-    //       }),
-    //     ],
-    //   }),
-    //   style: new Style({
-    //     image: new Icon({
-    //       src: markerIcon.src!,
-    //     }),
-    //   }),
-    // });
-
-    // myMap.addLayer(marker);
 
     myMap.addControl(new Zoom({ target: 'zoom-btn' }));
     myMap.addControl(new ZoomSlider({ target: 'slider' }));
 
-    const view = myMap.getView();
+    let markers;
 
-    myMap.on('pointerdrag', (e) => {
-      // console.log(e.coordinate);
-
-      setCoordinates(e.coordinate);
-    });
-
+    // on click map
     myMap.on('click', (e) => {
-      // console.log(e.coordinate);
-
       setCoordinates(e.coordinate);
       setIsInsideLoading(true);
       setIsInside(
@@ -119,6 +97,38 @@ const MapComponent: FunctionComponent = () => {
           ],
         })
       );
+
+      // setViewport({ ...viewport, center: e.coordinate });
+
+      if (markers!) myMap.removeLayer(markers);
+
+      if (!markerLayerRef.current) {
+        markers = new VectorLayer({
+          source: new VectorSource({
+            features: [
+              new Feature({
+                geometry: new Point(e.coordinate),
+              }),
+            ],
+          }),
+          style: new Style({
+            image: new Icon({
+              src: markerIcon.src!,
+              anchor: [0.5, 1],
+            }),
+          }),
+        });
+
+        myMap.addLayer(markers);
+
+        const marker = new Feature({ geometry: new Point(e.coordinate) });
+
+        markers.getSource()?.addFeature(marker);
+      }
+
+      // myMap.removeLayer(marker);
+
+      // myMap.addLayer(marker);
     });
 
     // set the map ref in the global store
@@ -126,47 +136,55 @@ const MapComponent: FunctionComponent = () => {
     setMapRef(myMap);
 
     // set the map state
-    setMap(map);
+    setMap(myMap);
+
+    // update the state when the view changes
+
+    const view = myMap.getView();
+    const handleViewChange = () => {
+      setViewport({
+        center: view.getCenter()!,
+        zoom: view.getZoom()!,
+        minZoom: view.getMinZoom(),
+      });
+    };
+
+    view.on('change:center', handleViewChange);
+    view.on('change:resolution', handleViewChange);
+
+    // view.on("change:zoom", handleViewChange)
 
     useMapStore.getState().setView(view);
 
     // on component unmount, remove the map references to avoid unexpected behavior
     return () => {
+      // if (!newMapRef) return;
+      view.un('change:center', handleViewChange);
+      view.un('change:resolution', handleViewChange);
+
       // remove the map when the component is unmounted
       myMap.setTarget(undefined);
     };
-  }, [mapRef, viewport, mapViewExtent]);
+  }, []);
+
+  //mapRef, viewport, mapViewExtent
+
+  useEffect(() => {
+    if (map) {
+      const view = map.getView();
+
+      view.setCenter(viewport.center);
+      view.setZoom(viewport.zoom);
+    }
+  }, [map]);
 
   return (
     <>
-      <div ref={mapRef} className=" inset-0 overflow-hidden h-full w-full rounded border relative " />
-      <div className="absolute top-2 right-10">
+      {/* <map ref={mapRef} className=" inset-0 overflow-hidden h-full w-full rounded border relative " /> */}
+      <map ref={mapRef} className="inset-0 overflow-hidden h-full w-full rounded  relative" />
+      {/* <div className="absolute top-2 right-10">
         <div className="zoom-btn" id="zoom-btn" />
         <div className="slider" id="slider" />
-      </div>
-
-      {/* <div className="absolute top-2 left-2 flex flex-col gap-1">
-        <button
-          id="zoom-btn"
-          className=" bg-gray-100 hover:ring-1 hover:ring-gray-800 text-gray-600 hover:text-gray-800 rounded"
-          type="button"
-          onClick={() => {
-            mapRefCurrent?.on('click', (e) => e.map.getView().setZoom(mapRefCurrent.getView().getZoom()! + 1));
-          }}
-        >
-          <BsPlus className="w-5 h-5 " />
-        </button>
-
-        <button
-          className=" bg-gray-100 hover:ring-1 hover:ring-gray-800 text-gray-600 hover:text-gray-800 rounded"
-          id="zoom-btn"
-          type="button"
-          onClick={() => {
-            mapRefCurrent?.on('click', (e) => e.map.getView().setZoom(mapRefCurrent.getView().getZoom()! - 1));
-          }}
-        >
-          <HiMinusSmall className="w-5 h-5 " />
-        </button>
       </div> */}
     </>
   );

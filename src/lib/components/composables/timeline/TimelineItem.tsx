@@ -25,7 +25,7 @@ export const TimelineItem: FunctionComponent<TimelineItemProps> = ({
       return (
         <div className="flex gap-1 items-center">
           <span className="">{title}</span>
-          <span className="px-2 bg-green-500 text-white text-base py-0.5 rounded-xl">End</span>
+          <span className="px-2 bg-green-500 text-white text-base  rounded-xl">End</span>
           {currentIndex + 1 === lastIndex ? (
             <span>
               <HiArrowCircleLeft color="green" size={18} className="animate-bounce-horizontal" />
@@ -38,7 +38,7 @@ export const TimelineItem: FunctionComponent<TimelineItemProps> = ({
       return (
         <div className="flex gap-1 items-center">
           <span>{title}</span>
-          <span className="px-2 bg-indigo-500 text-white text-base py-0.5 rounded-xl items-center">Start</span>
+          <span className="px-2 bg-indigo-500 text-white text-base  rounded-xl items-center">Start</span>
           {currentIndex + 1 === lastIndex ? (
             <span>
               <HiArrowCircleLeft color="green" size={18} className="animate-bounce-horizontal" />

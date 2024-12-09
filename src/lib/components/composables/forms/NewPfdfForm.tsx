@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '../../ui/Sheet';
 import { Button } from '../../ui/Button';
 import { usePfdfStore } from '@nsa/lib/zustand/usePfdfStore';
-import { usePageContext } from '../new-service-application/NewServiceApplicationPage';
-import { useApplicationFormStepStore } from '@nsa/lib/zustand/useApplicationFormStore';
+import { usePageContext } from '@nsa/lib/providers/PageProvider';
+import { useApplicationFormStepStore, useApplicationTabStore } from '@nsa/lib/zustand/useApplicationFormStore';
 import { ItemWithQty } from '@nsa/lib/utils/types/item';
 import { CardItem } from '../../ui/CardItem';
 import { Trash } from 'lucide-react';
@@ -19,6 +19,9 @@ import {
   AlertDialogFooter,
   AlertDialogAction,
 } from '../../ui/AlertDialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../ui/Tabs';
+
+const AllTabs: string[] = ['General', 'Sinks', 'Urinals'];
 
 export const NewPfdfForm = () => {
   const [activeSheet, setActiveSheet] = useState<string | null>(null);
@@ -29,8 +32,14 @@ export const NewPfdfForm = () => {
   const setItems = usePfdfStore((state) => state.setItems);
   const declaredItems = usePfdfStore((state) => state.declaredItems);
   const setDeclaredItems = usePfdfStore((state) => state.setDeclaredItems);
+
+  // step store
   const setCurrentStep = useApplicationFormStepStore((state) => state.setCurrentStep);
   const currentStep = useApplicationFormStepStore((state) => state.currentStep);
+
+  // tab store
+  const currentTab = useApplicationTabStore((state) => state.currentTab);
+  const setCurrentTab = useApplicationTabStore((state) => state.setCurrentTab);
 
   // page context
   const { pageRef } = usePageContext();
@@ -40,10 +49,11 @@ export const NewPfdfForm = () => {
 
   return (
     <div className="h-full relative">
-      <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10 ">
-        <span>Plumbing and Fixtures Declaration</span>
-      </div>
-      <Alert>
+      <div className="border-2 border-dashed bg-white border-blue-200 rounded-lg p-5">
+        <div className="text-xl font-medium text-gray-600 mb-2 gap-1 items-center hidden sm:hidden md:flex lg:flex">
+          <span>Plumbing and Fixtures Declaration</span>
+        </div>
+
         <div className="flex gap-2">
           <div className="flex justify-center items-start ">
             <LucideLightbulb className="sm:h-10 sm:w-10 lg:h-12 lg:w-12" />
@@ -55,369 +65,340 @@ export const NewPfdfForm = () => {
             </AlertDescription>
           </div>
         </div>
-      </Alert>
+      </div>
 
       <div className="flex flex-row sm:flex-col lg:flex-row gap-4">
         <div className="w-full border rounded-md p-4 mt-4 bg-white">
           <div className="">
-            {/* General Category */}
-            <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative">
-              {/* GENERAL */}
-              {items &&
-                items.map((item: ItemWithQty) => {
-                  if (item.category === 'none')
-                    return (
-                      <Sheet
-                        open={activeSheet === item.id}
-                        onOpenChange={(isOpen) => {
-                          setActiveSheet(isOpen ? item.id! : null);
-                          setTempQty(1);
-                        }}
-                        key={item.id}
-                      >
-                        <SheetTrigger>
-                          {/* <div className="w-full justify-between rounded-xl overflow-hidden p-4 border flex gap-2 hover:scale-[1.02] hover:bg-green-50 transition-all">
-                          <div className="flex flex-col justify-between">
-                            <div className="font-semibold font-sans">{item.name}</div>
-
-                            <div className="text-gray-600">{item.description}</div>
-                          </div>
-                          <div className="relative flex">
-                            <img src={item.imgUrl} alt={item.name} className="w-24 h-24 rounded" />
-                            {item.qty > 0 ? (
-                              <div className="stroke-white bg-green-600 rounded-full hover:cursor-pointer w-8 h-8 absolute bottom-0 right-0">
-                                <span className="w-full flex h-full justify-center items-center text-white text-base">
-                                  {item.qty}
-                                </span>
-                              </div>
-                            ) : (
-                              <PlusCircle className="stroke-green-500 stroke-1 fill-white hover:cursor-pointer w-8 h-8 absolute bottom-0 right-0" />
-                            )}
-                          </div>
-                        </div> */}
-
-                          <CardItem
-                            img={<img src={item.imgUrl} alt={item.name} className="w-24 h-24 rounded" />}
-                            item={item}
-                          />
-                        </SheetTrigger>
-
-                        <SheetContent className="bg-white">
-                          <SheetHeader>
-                            <SheetTitle>{item.name}</SheetTitle>
-                            <SheetDescription>Add how many {item.name}s you have.</SheetDescription>
-                          </SheetHeader>
-
-                          <div className="flex flex-col gap-2">
-                            <div className="flex gap-2 justify-end">
-                              <button
-                                className="border w-6 h-6 items-center text-center rounded select-none text-primary disabled:cursor-not-allowed"
-                                role="button"
-                                onClick={() => setTempQty(tempQty === 0 ? tempQty : tempQty - 1)}
-                                disabled={tempQty === 1 ? true : false}
-                              >
-                                -
-                              </button>
-                              <div className="select-none">{tempQty}</div>
-                              <div
-                                className="border w-6 h-6 items-center text-center rounded select-none text-primary"
-                                role="button"
-                                onClick={() => setTempQty(tempQty + 1)}
-                              >
-                                +
-                              </div>
-                            </div>
-                            <div className="flex justify-end">
-                              <Button
-                                onClick={() => {
-                                  const tempItems = [...items];
-                                  const tempNewItems = [...declaredItems];
-
-                                  if (declaredItems.filter((declaredItem) => declaredItem.id === item.id).length > 0) {
-                                    setDeclaredItems(
-                                      declaredItems.map((tempNewItem) => {
-                                        return {
-                                          ...tempNewItem,
-                                          qty: tempNewItem.id === item.id ? tempNewItem.qty + tempQty : tempNewItem.qty,
-                                        };
-                                      })
-                                    );
-                                    setItems(
-                                      tempItems.map((tempItem) =>
-                                        tempItem.id === item.id
-                                          ? { ...tempItem, qty: tempItem.qty + tempQty }
-                                          : tempItem
-                                      )
-                                    );
-                                    setTempQty(1);
-                                    setActiveSheet(null);
-                                  } else if (
-                                    declaredItems.filter((declaredItem) => declaredItem.id === item.id).length === 0
-                                  ) {
-                                    tempNewItems.push({ ...item, qty: tempQty });
-                                    setDeclaredItems(tempNewItems);
-                                    setItems(
-                                      tempItems.map((tempItem) =>
-                                        tempItem.id === item.id
-                                          ? { ...tempItem, qty: tempItem.qty + tempQty }
-                                          : tempItem
-                                      )
-                                    );
-                                    setTempQty(1);
-                                    setActiveSheet(null);
-                                  }
-                                }}
-                              >
-                                Add
-                              </Button>
-                            </div>
-                          </div>
-                        </SheetContent>
-                      </Sheet>
-                    );
+            <Tabs defaultValue={currentTab} className="w-full">
+              <TabsList className="gap-1 ">
+                {AllTabs.map((tab) => {
+                  return (
+                    <TabsTrigger
+                      value={tab}
+                      key={tab}
+                      onClick={() => setCurrentTab(tab)}
+                      className=" data-[state=active]:text-white data-[state=inactive]:text-gray-700 data-[state=active]:hover:bg-blue-600 data-[state=active]:bg-blue-500 data-[state=inactive]:hover:bg-blue-100 data-[state=inactive]:bg-white border hover:brightness-90"
+                    >
+                      {tab}
+                    </TabsTrigger>
+                  );
                 })}
-            </div>
+              </TabsList>
+              {/* General Category */}
+              <TabsContent value="General">
+                <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+                  {/* GENERAL */}
+                  {items &&
+                    items.map((item: ItemWithQty) => {
+                      if (item.category === 'general')
+                        return (
+                          <Sheet
+                            open={activeSheet === item.id}
+                            onOpenChange={(isOpen) => {
+                              setActiveSheet(isOpen ? item.id! : null);
+                              setTempQty(1);
+                            }}
+                            key={item.id}
+                          >
+                            <SheetTrigger>
+                              <CardItem
+                                img={<img src={item.imgUrl} alt={item.name} className="w-32 h-32 rounded" />}
+                                item={item}
+                              />
+                            </SheetTrigger>
 
-            {/* Sinks Category */}
-            <div className="px-2 pt-5 pb-1">
-              <span className="px-2  bg-green-600 text-white text-base rounded">Sinks</span>
-            </div>
-            <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative">
-              {items &&
-                items.map((item) => {
-                  if (item.category === 'sink')
-                    return (
-                      <Sheet
-                        open={activeSheet === item.id}
-                        onOpenChange={(isOpen) => setActiveSheet(isOpen ? item.id! : null)}
-                        key={item.id}
-                      >
-                        <SheetTrigger>
-                          {/* <section
-                          className="w-full justify-between rounded-xl overflow-hidden p-4 border flex gap-2 hover:scale-[1.02] hover:bg-green-50 transition-all"
-                    
-                        >
-                          <div className="flex flex-col justify-between">
-                            <div className="font-semibold font-sans">{item.name}</div>
+                            <SheetContent className="bg-white">
+                              <SheetHeader>
+                                <SheetTitle className="flex flex-col pb-2">
+                                  <span>{item.name}</span>
+                                  <span className="text-sm font-normal text-gray-500">{item.description}</span>
+                                </SheetTitle>
 
-                            <div className="text-gray-600">{item.description}</div>
-                          </div>
-                          <div className="relative flex">
-                            <img src={item.imgUrl} alt={item.name} className="w-24 h-24 rounded" />
-                            {item.qty > 0 ? (
-                              <div className="stroke-white bg-green-600 rounded-full hover:cursor-pointer w-8 h-8 absolute bottom-0 right-0">
-                                <span className="w-full flex h-full justify-center items-center text-white text-base">
-                                  {item.qty}
-                                </span>
+                                <SheetDescription>Add how many {item.name}s you have.</SheetDescription>
+                              </SheetHeader>
+
+                              <div className="flex flex-col gap-2">
+                                <div className="flex gap-2 justify-end">
+                                  <button
+                                    className="border w-6 h-6 items-center text-center rounded select-none text-primary disabled:cursor-not-allowed"
+                                    role="button"
+                                    onClick={() => setTempQty(tempQty === 0 ? tempQty : tempQty - 1)}
+                                    disabled={tempQty === 1 ? true : false}
+                                  >
+                                    -
+                                  </button>
+                                  <div className="select-none">{tempQty}</div>
+                                  <div
+                                    className="border w-6 h-6 items-center text-center rounded select-none text-primary"
+                                    role="button"
+                                    onClick={() => setTempQty(tempQty + 1)}
+                                  >
+                                    +
+                                  </div>
+                                </div>
+                                <div className="flex justify-end">
+                                  <Button
+                                    onClick={() => {
+                                      const tempItems = [...items];
+                                      const tempNewItems = [...declaredItems];
+
+                                      if (
+                                        declaredItems.filter((declaredItem) => declaredItem.id === item.id).length > 0
+                                      ) {
+                                        setDeclaredItems(
+                                          declaredItems.map((tempNewItem) => {
+                                            return {
+                                              ...tempNewItem,
+                                              qty:
+                                                tempNewItem.id === item.id
+                                                  ? tempNewItem.qty + tempQty
+                                                  : tempNewItem.qty,
+                                            };
+                                          })
+                                        );
+                                        setItems(
+                                          tempItems.map((tempItem) =>
+                                            tempItem.id === item.id
+                                              ? { ...tempItem, qty: tempItem.qty + tempQty }
+                                              : tempItem
+                                          )
+                                        );
+                                        setTempQty(1);
+                                        setActiveSheet(null);
+                                      } else if (
+                                        declaredItems.filter((declaredItem) => declaredItem.id === item.id).length === 0
+                                      ) {
+                                        tempNewItems.push({ ...item, qty: tempQty });
+                                        setDeclaredItems(tempNewItems);
+                                        setItems(
+                                          tempItems.map((tempItem) =>
+                                            tempItem.id === item.id
+                                              ? { ...tempItem, qty: tempItem.qty + tempQty }
+                                              : tempItem
+                                          )
+                                        );
+                                        setTempQty(1);
+                                        setActiveSheet(null);
+                                      }
+                                    }}
+                                  >
+                                    Add
+                                  </Button>
+                                </div>
                               </div>
-                            ) : (
-                              <PlusCircle className="stroke-green-500 stroke-1 fill-white hover:cursor-pointer w-8 h-8 absolute bottom-0 right-0" />
-                            )}
-                          </div>
-                        </section> */}
-                          <CardItem
-                            img={<img src={item.imgUrl} alt={item.name} className="w-24 h-24 rounded" />}
-                            item={item}
-                          />
-                        </SheetTrigger>
+                            </SheetContent>
+                          </Sheet>
+                        );
+                    })}
+                </div>
+              </TabsContent>
 
-                        <SheetContent className="bg-white">
-                          <SheetHeader>
-                            <SheetTitle>{item.name}</SheetTitle>
-                            <SheetDescription>Add how many {item.name}s you have.</SheetDescription>
-                          </SheetHeader>
+              {/* Sinks Category */}
+              <TabsContent value="Sinks">
+                <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+                  {items &&
+                    items.map((item) => {
+                      if (item.category === 'sink')
+                        return (
+                          <Sheet
+                            open={activeSheet === item.id}
+                            onOpenChange={(isOpen) => setActiveSheet(isOpen ? item.id! : null)}
+                            key={item.id}
+                          >
+                            <SheetTrigger>
+                              <CardItem
+                                img={<img src={item.imgUrl} alt={item.name} className="w-32 h-32 rounded" />}
+                                item={item}
+                              />
+                            </SheetTrigger>
 
-                          <div className="flex flex-col gap-2">
-                            <div className="flex gap-2 justify-end">
-                              <button
-                                className="border w-6 h-6 items-center text-center rounded select-none text-primary disabled:cursor-not-allowed"
-                                onClick={() => setTempQty(tempQty === 0 ? tempQty : tempQty - 1)}
-                                disabled={tempQty === 1 ? true : false}
-                              >
-                                -
-                              </button>
-                              <div className="select-none">{tempQty}</div>
-                              <div
-                                className="border w-6 h-6 items-center text-center rounded select-none text-primary"
-                                role="button"
-                                onClick={() => setTempQty(tempQty + 1)}
-                              >
-                                +
+                            <SheetContent className="bg-white">
+                              <SheetHeader>
+                                <SheetTitle>{item.name}</SheetTitle>
+                                <SheetDescription>Add how many {item.name}s you have.</SheetDescription>
+                              </SheetHeader>
+
+                              <div className="flex flex-col gap-2">
+                                <div className="flex gap-2 justify-end">
+                                  <button
+                                    className="border w-6 h-6 items-center text-center rounded select-none text-primary disabled:cursor-not-allowed"
+                                    onClick={() => setTempQty(tempQty === 0 ? tempQty : tempQty - 1)}
+                                    disabled={tempQty === 1 ? true : false}
+                                  >
+                                    -
+                                  </button>
+                                  <div className="select-none">{tempQty}</div>
+                                  <div
+                                    className="border w-6 h-6 items-center text-center rounded select-none text-primary"
+                                    role="button"
+                                    onClick={() => setTempQty(tempQty + 1)}
+                                  >
+                                    +
+                                  </div>
+                                </div>
+                                <div className="flex justify-end">
+                                  <Button
+                                    onClick={() => {
+                                      const tempItems = [...items];
+                                      const tempNewItems = [...declaredItems];
+
+                                      if (
+                                        declaredItems.filter((declaredItem) => declaredItem.id === item.id).length > 0
+                                      ) {
+                                        setDeclaredItems(
+                                          declaredItems.map((tempNewItem) => {
+                                            return {
+                                              ...tempNewItem,
+                                              qty:
+                                                tempNewItem.id === item.id
+                                                  ? tempNewItem.qty + tempQty
+                                                  : tempNewItem.qty,
+                                            };
+                                          })
+                                        );
+                                        setItems(
+                                          tempItems.map((tempItem) =>
+                                            tempItem.id === item.id
+                                              ? { ...tempItem, qty: tempItem.qty + tempQty }
+                                              : tempItem
+                                          )
+                                        );
+                                        setTempQty(1);
+                                        setActiveSheet(null);
+                                      } else if (
+                                        declaredItems.filter((declaredItem) => declaredItem.id === item.id).length === 0
+                                      ) {
+                                        tempNewItems.push({ ...item, qty: tempQty });
+                                        setDeclaredItems(tempNewItems);
+                                        setItems(
+                                          tempItems.map((tempItem) =>
+                                            tempItem.id === item.id
+                                              ? { ...tempItem, qty: tempItem.qty + tempQty }
+                                              : tempItem
+                                          )
+                                        );
+                                        setTempQty(1);
+                                        setActiveSheet(null);
+                                      }
+                                    }}
+                                  >
+                                    Add
+                                  </Button>
+                                </div>
                               </div>
-                            </div>
-                            <div className="flex justify-end">
-                              <Button
-                                onClick={() => {
-                                  const tempItems = [...items];
-                                  const tempNewItems = [...declaredItems];
+                            </SheetContent>
+                          </Sheet>
+                        );
+                    })}
+                </div>
+              </TabsContent>
 
-                                  if (declaredItems.filter((declaredItem) => declaredItem.id === item.id).length > 0) {
-                                    setDeclaredItems(
-                                      declaredItems.map((tempNewItem) => {
-                                        return {
-                                          ...tempNewItem,
-                                          qty: tempNewItem.id === item.id ? tempNewItem.qty + tempQty : tempNewItem.qty,
-                                        };
-                                      })
-                                    );
-                                    setItems(
-                                      tempItems.map((tempItem) =>
-                                        tempItem.id === item.id
-                                          ? { ...tempItem, qty: tempItem.qty + tempQty }
-                                          : tempItem
-                                      )
-                                    );
-                                    setTempQty(1);
-                                    setActiveSheet(null);
-                                  } else if (
-                                    declaredItems.filter((declaredItem) => declaredItem.id === item.id).length === 0
-                                  ) {
-                                    tempNewItems.push({ ...item, qty: tempQty });
-                                    setDeclaredItems(tempNewItems);
-                                    setItems(
-                                      tempItems.map((tempItem) =>
-                                        tempItem.id === item.id
-                                          ? { ...tempItem, qty: tempItem.qty + tempQty }
-                                          : tempItem
-                                      )
-                                    );
-                                    setTempQty(1);
-                                    setActiveSheet(null);
-                                  }
-                                }}
-                              >
-                                Add
-                              </Button>
-                            </div>
-                          </div>
-                        </SheetContent>
-                      </Sheet>
-                    );
-                })}
-            </div>
+              {/* Urinals Category */}
+              <TabsContent value="Urinals">
+                <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+                  {items &&
+                    items.map((item) => {
+                      if (item.category === 'urinal')
+                        return (
+                          <Sheet
+                            open={activeSheet === item.id}
+                            onOpenChange={(isOpen) => setActiveSheet(isOpen ? item.id! : null)}
+                            key={item.id}
+                          >
+                            <SheetTrigger>
+                              <CardItem
+                                img={<img src={item.imgUrl} alt={item.name} className="w-32 h-32 rounded" />}
+                                item={item}
+                              />
+                            </SheetTrigger>
 
-            {/* Urinals Category */}
-            <div className="px-2 pt-5 pb-1">
-              <span className="px-2  bg-green-600 text-white text-base rounded">Urinals</span>
-            </div>
-            <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative">
-              {items &&
-                items.map((item) => {
-                  if (item.category === 'urinal')
-                    return (
-                      <Sheet
-                        open={activeSheet === item.id}
-                        onOpenChange={(isOpen) => setActiveSheet(isOpen ? item.id! : null)}
-                        key={item.id}
-                      >
-                        <SheetTrigger>
-                          {/* <section
-                          className="w-full justify-between rounded-xl overflow-hidden p-4 border flex gap-2 hover:scale-[1.02] hover:bg-green-50 transition-all"
-                    
-                        >
-                          <div className="flex flex-col justify-between">
-                            <div className="font-semibold font-sans">{item.name}</div>
+                            <SheetContent className="bg-white">
+                              <SheetHeader>
+                                <SheetTitle>{item.name}</SheetTitle>
+                                <SheetDescription>Add how many {item.name}s you have.</SheetDescription>
+                              </SheetHeader>
 
-                            <div className="text-gray-600">{item.description}</div>
-                          </div>
-                          <div className="relative flex">
-                            <img src={item.imgUrl} alt={item.name} className="w-24 h-24 rounded" />
-                            {item.qty > 0 ? (
-                              <div className="stroke-white bg-green-600 rounded-full hover:cursor-pointer w-8 h-8 absolute bottom-0 right-0">
-                                <span className="w-full flex h-full justify-center items-center text-white text-base">
-                                  {item.qty}
-                                </span>
+                              <div className="flex flex-col gap-2">
+                                <div className="flex gap-2 justify-end">
+                                  <button
+                                    className="border w-6 h-6 items-center text-center rounded select-none text-primary disabled:cursor-not-allowed"
+                                    onClick={() => setTempQty(tempQty === 0 ? tempQty : tempQty - 1)}
+                                    disabled={tempQty === 1 ? true : false}
+                                  >
+                                    -
+                                  </button>
+                                  <div className="select-none">{tempQty}</div>
+                                  <div
+                                    className="border w-6 h-6 items-center text-center rounded select-none text-primary"
+                                    role="button"
+                                    onClick={() => setTempQty(tempQty + 1)}
+                                  >
+                                    +
+                                  </div>
+                                </div>
+                                <div className="flex justify-end">
+                                  <Button
+                                    onClick={() => {
+                                      const tempItems = [...items];
+                                      const tempNewItems = [...declaredItems];
+
+                                      if (
+                                        declaredItems.filter((declaredItem) => declaredItem.id === item.id).length > 0
+                                      ) {
+                                        setDeclaredItems(
+                                          declaredItems.map((tempNewItem) => {
+                                            return {
+                                              ...tempNewItem,
+                                              qty:
+                                                tempNewItem.id === item.id
+                                                  ? tempNewItem.qty + tempQty
+                                                  : tempNewItem.qty,
+                                            };
+                                          })
+                                        );
+                                        setItems(
+                                          tempItems.map((tempItem) =>
+                                            tempItem.id === item.id
+                                              ? { ...tempItem, qty: tempItem.qty + tempQty }
+                                              : tempItem
+                                          )
+                                        );
+                                        setTempQty(1);
+                                        setActiveSheet(null);
+                                      } else if (
+                                        declaredItems.filter((declaredItem) => declaredItem.id === item.id).length === 0
+                                      ) {
+                                        tempNewItems.push({ ...item, qty: tempQty });
+                                        setDeclaredItems(tempNewItems);
+                                        setItems(
+                                          tempItems.map((tempItem) =>
+                                            tempItem.id === item.id
+                                              ? { ...tempItem, qty: tempItem.qty + tempQty }
+                                              : tempItem
+                                          )
+                                        );
+                                        setTempQty(1);
+                                        setActiveSheet(null);
+                                      }
+                                    }}
+                                  >
+                                    Add
+                                  </Button>
+                                </div>
                               </div>
-                            ) : (
-                              <PlusCircle className="stroke-green-500 stroke-1 fill-white hover:cursor-pointer w-8 h-8 absolute bottom-0 right-0" />
-                            )}
-                          </div>
-                        </section> */}
-                          <CardItem
-                            img={<img src={item.imgUrl} alt={item.name} className="w-24 h-24 rounded" />}
-                            item={item}
-                          />
-                        </SheetTrigger>
-
-                        <SheetContent className="bg-white">
-                          <SheetHeader>
-                            <SheetTitle>{item.name}</SheetTitle>
-                            <SheetDescription>Add how many {item.name}s you have.</SheetDescription>
-                          </SheetHeader>
-
-                          <div className="flex flex-col gap-2">
-                            <div className="flex gap-2 justify-end">
-                              <button
-                                className="border w-6 h-6 items-center text-center rounded select-none text-primary disabled:cursor-not-allowed"
-                                onClick={() => setTempQty(tempQty === 0 ? tempQty : tempQty - 1)}
-                                disabled={tempQty === 1 ? true : false}
-                              >
-                                -
-                              </button>
-                              <div className="select-none">{tempQty}</div>
-                              <div
-                                className="border w-6 h-6 items-center text-center rounded select-none text-primary"
-                                role="button"
-                                onClick={() => setTempQty(tempQty + 1)}
-                              >
-                                +
-                              </div>
-                            </div>
-                            <div className="flex justify-end">
-                              <Button
-                                onClick={() => {
-                                  const tempItems = [...items];
-                                  const tempNewItems = [...declaredItems];
-
-                                  if (declaredItems.filter((declaredItem) => declaredItem.id === item.id).length > 0) {
-                                    setDeclaredItems(
-                                      declaredItems.map((tempNewItem) => {
-                                        return {
-                                          ...tempNewItem,
-                                          qty: tempNewItem.id === item.id ? tempNewItem.qty + tempQty : tempNewItem.qty,
-                                        };
-                                      })
-                                    );
-                                    setItems(
-                                      tempItems.map((tempItem) =>
-                                        tempItem.id === item.id
-                                          ? { ...tempItem, qty: tempItem.qty + tempQty }
-                                          : tempItem
-                                      )
-                                    );
-                                    setTempQty(1);
-                                    setActiveSheet(null);
-                                  } else if (
-                                    declaredItems.filter((declaredItem) => declaredItem.id === item.id).length === 0
-                                  ) {
-                                    tempNewItems.push({ ...item, qty: tempQty });
-                                    setDeclaredItems(tempNewItems);
-                                    setItems(
-                                      tempItems.map((tempItem) =>
-                                        tempItem.id === item.id
-                                          ? { ...tempItem, qty: tempItem.qty + tempQty }
-                                          : tempItem
-                                      )
-                                    );
-                                    setTempQty(1);
-                                    setActiveSheet(null);
-                                  }
-                                }}
-                              >
-                                Add
-                              </Button>
-                            </div>
-                          </div>
-                        </SheetContent>
-                      </Sheet>
-                    );
-                })}
-            </div>
+                            </SheetContent>
+                          </Sheet>
+                        );
+                    })}
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </div>
 
-      <div className="flex gap-4 mt-10">
+      <div className="flex gap-8 mt-10">
         <Button
           variant="outline"
           type="button"
@@ -430,7 +411,6 @@ export const NewPfdfForm = () => {
         </Button>
 
         <Button
-          variant="alternative"
           onClick={() => {
             setCurrentStep(currentStep + 1);
             pageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
@@ -443,7 +423,7 @@ export const NewPfdfForm = () => {
 
       <AlertDialog open={dialogSummaryIsOpen} onOpenChange={setDialogSummaryIsOpen}>
         <AlertDialogTrigger>
-          <div className="fixed items-center  py-2 bottom-2 left-1/2 transform -translate-x-1/2 bg-green-600 px-4 text-xl text-white rounded-md">
+          <div className="fixed items-center hover:brightness-105 py-2 bottom-2 left-1/2 transform -translate-x-1/2 bg-blue-600 px-4 text-xl text-white rounded-md">
             <div className="flex gap-2 items-center">
               Summary{' '}
               {totalQty > 0 && (

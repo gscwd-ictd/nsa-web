@@ -18,68 +18,9 @@ import serviceMopBasin from '@images/PFDF/service-mop-basin.jpg';
 import showerHead from '@images/PFDF/shower-head.jpg';
 import flushometer from '@images/PFDF/flushometer.jpeg';
 import flushTank from '@images/PFDF/flush-tank.jpg';
+import waterClosetOnePointSix from '@images/PFDF/water-closet-1-point-6.avif';
 
 type PfdfState = {
-  bathtubQty: number;
-  setBathtubQty: (bathtubQty: number) => void;
-
-  bidetQty: number;
-  setBidetQty: (bidetQty: number) => void;
-
-  clothesWasherQty: number;
-  setClothesWasherQty: (clothesWasherQty: number) => void;
-
-  dishwasherQty: number;
-  setDishwasherQty: (dishwasherQty: number) => void;
-
-  cuspidorQty: number;
-  setCuspidorQty: (cuspidorQty: number) => void;
-
-  drinkingFountainQty: number;
-  setDrinkingFountainQty: (drinkingFountainQty: number) => void;
-
-  lavatoryQty: number;
-  setLavatoryQty: (lavatoryQty: number) => void;
-
-  hoseBibbQty: number;
-  setHoseBibbQty: (hoseBibbQty: number) => void;
-
-  barSinkQty: number;
-  setBarSinkQty: (barSinkQty: number) => void;
-
-  lawnSprinklerQty: number;
-  setLawnSprinklerQty: (lawnSprinklerQty: number) => void;
-
-  bathtubSheetIsOpen: boolean;
-  setBathtubSheetIsOpen: (bathtubSheetIsOpen: boolean) => void;
-
-  bidetSheetIsOpen: boolean;
-  setBidetSheetIsOpen: (bidetSheetIsOpen: boolean) => void;
-
-  drinkingFountainSheetIsOpen: boolean;
-  setDrinkingFountainSheetIsOpen: (drinkingFountainSheetIsOpen: boolean) => void;
-
-  cuspidorSheetIsOpen: boolean;
-  setCuspidorSheetIsOpen: (cuspidorSheetIsOpen: boolean) => void;
-
-  clothesWasherSheetIsOpen: boolean;
-  setClothesWasherSheetIsOpen: (clothesWasherSheetIsOpen: boolean) => void;
-
-  dishwasherSheetIsOpen: boolean;
-  setDishwasherSheetIsOpen: (dishwasherSheetIsOpen: boolean) => void;
-
-  lavatorySheetIsOpen: boolean;
-  setLavatorySheetIsOpen: (lavatorySheetIsOpen: boolean) => void;
-
-  hoseBibbSheetIsOpen: boolean;
-  setHoseBibbSheetIsOpen: (hoseBibbSheetIsOpen: boolean) => void;
-
-  barSinkSheetIsOpen: boolean;
-  setBarSinkSheetIsOpen: (barSinkSheetIsOpen: boolean) => void;
-
-  lawnSprinklerSheetIsOpen: boolean;
-  setLawnSprinklerSheetIsOpen: (lawnSprinklerSheetIsOpen: boolean) => void;
-
   items: Array<ItemWithQty>;
   setItems: (items: Array<ItemWithQty>) => void;
 
@@ -89,130 +30,73 @@ type PfdfState = {
 
 export const usePfdfStore = create<PfdfState>()(
   devtools((set) => ({
-    bathtubQty: 0,
-    setBathtubQty: (bathtubQty) => set({ bathtubQty }),
-
-    bidetQty: 0,
-    setBidetQty: (bidetQty) => set({ bidetQty }),
-
-    bathtubSheetIsOpen: false,
-    setBathtubSheetIsOpen: (bathtubSheetIsOpen) => set({ bathtubSheetIsOpen }),
-
-    bidetSheetIsOpen: false,
-    setBidetSheetIsOpen: (bidetSheetIsOpen) => set({ bidetSheetIsOpen }),
-
-    clothesWasherQty: 0,
-    setClothesWasherQty: (clothesWasherQty) => set({ clothesWasherQty }),
-
-    clothesWasherSheetIsOpen: false,
-    setClothesWasherSheetIsOpen: (clothesWasherSheetIsOpen) => set({ clothesWasherSheetIsOpen }),
-
-    dishwasherQty: 0,
-    setDishwasherQty: (dishwasherQty) => set({ dishwasherQty }),
-
-    dishwasherSheetIsOpen: false,
-    setDishwasherSheetIsOpen: (dishwasherSheetIsOpen) => set({ dishwasherSheetIsOpen }),
-
-    cuspidorQty: 0,
-    setCuspidorQty: (cuspidorQty) => set({ cuspidorQty }),
-
-    cuspidorSheetIsOpen: false,
-    setCuspidorSheetIsOpen: (cuspidorSheetIsOpen) => set({ cuspidorSheetIsOpen }),
-
-    drinkingFountainQty: 0,
-    setDrinkingFountainQty: (drinkingFountainQty) => set({ drinkingFountainQty }),
-
-    drinkingFountainSheetIsOpen: false,
-    setDrinkingFountainSheetIsOpen: (drinkingFountainSheetIsOpen) => set({ drinkingFountainSheetIsOpen }),
-
-    lavatoryQty: 0,
-    setLavatoryQty: (lavatoryQty) => set({ lavatoryQty }),
-
-    lavatorySheetIsOpen: false,
-    setLavatorySheetIsOpen: (lavatorySheetIsOpen) => set({ lavatorySheetIsOpen }),
-
-    hoseBibbQty: 0,
-    setHoseBibbQty: (hoseBibbQty) => set({ hoseBibbQty }),
-
-    hoseBibbSheetIsOpen: false,
-    setHoseBibbSheetIsOpen: (hoseBibbSheetIsOpen) => set({ hoseBibbSheetIsOpen }),
-
-    barSinkQty: 0,
-    setBarSinkQty: (barSinkQty) => set({ barSinkQty }),
-
-    barSinkSheetIsOpen: false,
-    setBarSinkSheetIsOpen: (barSinkSheetIsOpen) => set({ barSinkSheetIsOpen }),
-
-    lawnSprinklerQty: 0,
-    setLawnSprinklerQty: (lawnSprinklerQty) => set({ lawnSprinklerQty }),
-
-    lawnSprinklerSheetIsOpen: false,
-    setLawnSprinklerSheetIsOpen: (lawnSprinklerSheetIsOpen) => set({ lawnSprinklerSheetIsOpen }),
-
     items: [
       {
         id: '001',
         name: 'Bathtub',
         qty: 0,
         imgUrl: bathtub.src,
-        category: 'none',
-        description: 'Test description',
+        category: 'general',
+        description: 'A tub, usually installed in a bathroom, in which to bathe.',
       },
       {
         id: '002',
         name: 'Bidet',
         qty: 0,
         imgUrl: bidet.src,
-        category: 'none',
-        description: 'Test description',
+        category: 'general',
+        description:
+          'A plumbing fixture that is installed as a separate unit in the bathroom besides toilet, shower and sink, which users have to straddle.',
       },
       {
         id: '003',
         name: 'Clothes Washer',
         qty: 0,
         imgUrl: clothesWasher.src,
-        category: 'none',
-        description: 'Test description',
+        category: 'general',
+        description: 'A flat ring used to tighten joints, a machine for washing, or a person who washes.',
       },
       {
         id: '004',
         name: 'Domestic Dishwasher',
         qty: 0,
         imgUrl: domesticDishwasher.src,
-        category: 'none',
-        description: 'Test description',
+        category: 'general',
+        description:
+          'A cabinet-like appliance that cleans, rinses, and dries dishware, glassware, utensils, and cookware.',
       },
       {
         id: '005',
         name: 'Cuspidor',
         qty: 0,
         imgUrl: cuspidor.src,
-        category: 'none',
-        description: 'Test description',
+        category: 'general',
+        description:
+          'A bowl-shaped container used to collect saliva and other fluids, especially during dental procedures.',
       },
       {
         id: '006',
         name: 'Drinking Fountain',
         qty: 0,
         imgUrl: drinkingFountain.src,
-        category: 'none',
-        description: 'Test description',
+        category: 'general',
+        description: 'It consists of a basin with either continuously running water or a tap.',
       },
       {
         id: '007',
         name: 'Lavatory',
         qty: 0,
         imgUrl: lavatory.src,
-        category: 'none',
-        description: 'Test description',
+        category: 'general',
+        description: 'A vessel (such as a basin) for washing.',
       },
       {
         id: '008',
-        name: 'Hose Bibb',
+        name: 'Hose Bib',
         qty: 0,
         imgUrl: hoseBibb.src,
-        category: 'none',
-        description: 'Test description',
+        category: 'general',
+        description: 'A small outdoor faucet that is typically attached to the side or back of a home.',
       },
       {
         id: '009',
@@ -220,15 +104,15 @@ export const usePfdfStore = create<PfdfState>()(
         qty: 0,
         imgUrl: barSink.src,
         category: 'sink',
-        description: 'Test description',
+        description: 'Used for washing glassware, utensils, and small items in a bar area.',
       },
       {
         id: '010',
         name: 'Lawn Sprinkler',
         qty: 0,
         imgUrl: lawnSprinkler.src,
-        category: 'none',
-        description: 'Test description',
+        category: 'general',
+        description: 'A garden device that sprays water onto your grass or plants.',
       },
       {
         id: '011',
@@ -236,7 +120,8 @@ export const usePfdfStore = create<PfdfState>()(
         qty: 0,
         imgUrl: clinicalFaucet.src,
         category: 'sink',
-        description: 'Test description',
+        description:
+          'Specialized faucets designed for use in medical settings like hospitals, clinics, and veterinary facilities.',
       },
       {
         id: '012',
@@ -244,7 +129,7 @@ export const usePfdfStore = create<PfdfState>()(
         qty: 0,
         imgUrl: domesticKitchenSink.src,
         category: 'sink',
-        description: 'Test description',
+        description: `A bowl-shaped plumbing fixture that's used for washing dishes, cleaning hands, and other kitchen tasks.`,
       },
       {
         id: '013',
@@ -252,7 +137,7 @@ export const usePfdfStore = create<PfdfState>()(
         qty: 0,
         imgUrl: laundrySink.src,
         category: 'sink',
-        description: 'Test description',
+        description: 'A large, rugged sink used for washing clothes, hand-washing items, and other tasks.',
       },
       {
         id: '014',
@@ -260,15 +145,16 @@ export const usePfdfStore = create<PfdfState>()(
         qty: 0,
         imgUrl: serviceMopBasin.src,
         category: 'sink',
-        description: 'Test description',
+        description:
+          'A deep well plumbing fixture used for collecting and dispensing water for mopping in janitorial areas',
       },
       {
         id: '015',
         name: 'Shower Head',
         qty: 0,
         imgUrl: showerHead.src,
-        category: 'none',
-        description: 'Test description',
+        category: 'general',
+        description: 'A bathroom fixture that directs the flow of water in a bathroom shower.',
       },
       {
         id: '016',
@@ -276,7 +162,7 @@ export const usePfdfStore = create<PfdfState>()(
         qty: 0,
         imgUrl: flushometer.src,
         category: 'urinal',
-        description: 'Test description',
+        description: 'A device that uses water pressure to flush toilets and urinals.',
       },
       {
         id: '017',
@@ -284,7 +170,7 @@ export const usePfdfStore = create<PfdfState>()(
         qty: 0,
         imgUrl: flushometer.src,
         category: 'urinal',
-        description: 'Test description',
+        description: 'A device that uses water pressure to flush toilets and urinals.',
       },
       {
         id: '018',
@@ -292,7 +178,15 @@ export const usePfdfStore = create<PfdfState>()(
         qty: 0,
         imgUrl: flushTank.src,
         category: 'urinal',
-        description: 'Test description',
+        description: 'A container that holds water or sewage for flushing a toilet or sewer.',
+      },
+      {
+        id: '019',
+        name: 'Water Closet with 1.6 GPF',
+        qty: 0,
+        imgUrl: waterClosetOnePointSix.src,
+        category: 'general',
+        description: 'An enclosed room or compartment containing a toilet bowl fitted with a mechanism for flushing.',
       },
     ],
     setItems: (items) => set({ items }),

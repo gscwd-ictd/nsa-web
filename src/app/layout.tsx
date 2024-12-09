@@ -1,13 +1,24 @@
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Poppins, Montserrat, DM_Sans } from 'next/font/google';
 import { ThemeProvider } from '@nsa/lib/providers/ThemeProvider';
 import { QueryClientProvider } from '@nsa/lib/providers/QueryClientProvider';
 import { Toaster } from '@nsa/lib/components/ui/Toaster';
 import { SonnerToast } from '@nsa/lib/components/ui/Sonner';
 import '@nsa/styles/tailwind.css';
 import '@nsa/styles/ol.css';
+import { MapProvider } from '@nsa/lib/providers/MapProvider';
 
 const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+});
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+});
+
+const dmSans = DM_Sans({
   subsets: ['latin'],
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
@@ -35,10 +46,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.className} antialiased h-screen w-screen overflow-x-hidden overflow-y-hidden`}>
+      <body className={`${dmSans.className} antialiased h-screen w-screen overflow-y-hidden overflow-x-hidden`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <QueryClientProvider>
-            {children}
+            <MapProvider>
+              <main>{children}</main>
+            </MapProvider>
             <Toaster />
             <SonnerToast />
           </QueryClientProvider>

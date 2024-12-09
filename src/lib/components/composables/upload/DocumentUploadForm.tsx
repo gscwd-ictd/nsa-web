@@ -1,7 +1,5 @@
 import { useApplicationFormStore } from '@nsa/lib/zustand/useApplicationFormStore';
 import { createContext, FunctionComponent, MutableRefObject, useRef } from 'react';
-import { PiCertificateFill, PiFileMagnifyingGlassFill } from 'react-icons/pi';
-import { HiDocumentText } from 'react-icons/hi2';
 import { Button } from '../../ui/Button';
 import { UploadIcon } from 'lucide-react';
 import { FileToUploadCard } from '../features/UploadCard';
@@ -36,16 +34,16 @@ export const DocumentUploadForm: FunctionComponent = () => {
 
   return (
     <>
-      <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8">
+      <div className="mt-10 grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 w-full">
         {/* PROOF OF OWNERSHIP */}
         <div>
           <div className="flex flex-col mb-2">
-            <div className="flex gap-2 items-center text-xl font-medium text-gray-700">
-              <PiCertificateFill className="w-8 h-8 " /> Proof of Lot Ownership
+            <div className="flex gap-2 items-center text-xl font-medium text-primary ">
+              <span className="text-primary">Proof of Lot Ownership</span> <span className="text-red-600">*</span>
             </div>
           </div>
 
-          <div className="w-full rounded-lg mb-2 flex flex-col">
+          <div className="w-full rounded-lg flex flex-col">
             <InvisibleInput
               ref={proofOfOwnershipRef}
               accept="application/pdf, image/png, image/jpeg, image/jpg"
@@ -54,12 +52,12 @@ export const DocumentUploadForm: FunctionComponent = () => {
             />
 
             {proofOfOwnershipToUpload && proofOfOwnershipToUpload.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed mb-2">
+              <div className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed mt-8 mb-2">
                 <h3 className="text-xl font-semibold text-zinc-400">No file selected</h3>
               </div>
             ) : (
               <ProofOfOwnershipContext.Provider value={{ proofOfOwnershipRef }}>
-                <div className="px-0 space-y-2 rounded mb-4">
+                <div className="px-0 space-y-2 rounded mb-2 w-full">
                   <span className="items-center text-gray-700 text-base">
                     <span className="items-center text-gray-700 text-base">
                       File/s to be uploaded ({proofOfOwnershipToUpload.length})
@@ -86,7 +84,7 @@ export const DocumentUploadForm: FunctionComponent = () => {
               variant="outline"
               className="text-gray-700"
             >
-              <section className="flex items-center justify-center w-full gap-2">
+              <section className="flex items-center justify-center w-full gap-2 ">
                 <UploadIcon className="w-4 h-4" />
                 <span className="text-lg">
                   {proofOfOwnershipToUpload && proofOfOwnershipToUpload.length === 0
@@ -103,8 +101,8 @@ export const DocumentUploadForm: FunctionComponent = () => {
         {/* PROOF OF BILLING */}
         <div>
           <div className="flex flex-col mb-2">
-            <div className="flex gap-2 items-center text-xl font-medium text-gray-700">
-              <PiFileMagnifyingGlassFill className="w-8 h-8" /> Proof of Billing
+            <div className="flex gap-2 items-center text-xl font-medium text-primary ">
+              <span className="text-primary  rounded">Proof of Billing</span>
             </div>
           </div>
 
@@ -117,12 +115,12 @@ export const DocumentUploadForm: FunctionComponent = () => {
             />
 
             {proofOfBillingToUpload && proofOfBillingToUpload.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed mb-2">
+              <div className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed mt-8 mb-2">
                 <h3 className="text-xl font-semibold text-zinc-400">No file selected</h3>
               </div>
             ) : (
               <ProofOfBillingContext.Provider value={{ proofOfBillingRef }}>
-                <div className="px-0 space-y-2 rounded mb-4">
+                <div className="px-0 space-y-2 rounded mb-2">
                   <span className="items-center text-gray-700 text-base">
                     File/s to be uploaded ({proofOfBillingToUpload.length})
                   </span>
@@ -160,8 +158,8 @@ export const DocumentUploadForm: FunctionComponent = () => {
         {/* BARANGAY CERTIFICATE */}
         <div>
           <div className="flex flex-col mb-2">
-            <div className="flex gap-2 items-center text-xl font-medium text-gray-700">
-              <HiDocumentText className="w-8 h-8" /> Barangay Certificate
+            <div className="flex gap-2 items-center text-xl font-medium text-primary ">
+              <span className="text-primary">Barangay Certificate</span>
             </div>
           </div>
 
@@ -174,12 +172,12 @@ export const DocumentUploadForm: FunctionComponent = () => {
             />
 
             {barangayCertificateToUpload && barangayCertificateToUpload.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed mb-2">
+              <div className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed mt-8 mb-2">
                 <h3 className="text-xl font-semibold text-zinc-400">No file selected</h3>
               </div>
             ) : (
               <BarangayCertificateContext.Provider value={{ barangayCertificateRef }}>
-                <div className="px-0 space-y-2 rounded mb-4">
+                <div className="px-0 space-y-2 rounded mb-2">
                   <span className="items-center text-gray-700 text-base">
                     File/s to be uploaded ({barangayCertificateToUpload.length})
                   </span>

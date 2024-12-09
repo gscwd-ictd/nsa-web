@@ -1,7 +1,7 @@
 'use client';
 import { useApplicationFormStepStore } from '@nsa/lib/zustand/useApplicationFormStore';
 import { Button } from '../../ui/Button';
-import { usePageContext } from '../new-service-application/NewServiceApplicationPage';
+import { usePageContext } from '@nsa/lib/providers/PageProvider';
 import { CheckCircle2, LucideLightbulb, PlusCircle } from 'lucide-react';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '../../ui/Sheet';
 import { Alert, AlertDescription, AlertTitle } from '../../ui/Alert';

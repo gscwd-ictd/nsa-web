@@ -11,11 +11,12 @@ import { LabelWithInput } from '../../ui/LabelWithInput';
 
 import { Alert, AlertDescription, AlertTitle } from '../../ui/Alert';
 import { LucideLightbulb } from 'lucide-react';
-import { usePageContext } from '../new-service-application/NewServiceApplicationPage';
 import { Button } from '../../ui/Button';
 import { fromLonLat, toLonLat } from 'ol/proj';
 import { Spinner } from '../../ui/Spinner';
 import { useMapStore } from '@nsa/lib/zustand/useMapStore';
+import { usePageContext } from '@nsa/lib/providers/PageProvider';
+import { WebMap } from '../WebMap';
 
 // polygon
 const polygon = {
@@ -125,30 +126,31 @@ export const AddressForm: FunctionComponent = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} id="addressForm">
-      <div className="text-xl font-medium text-gray-600 mt-10">Pin the exact location</div>
+      <div className="border-2 border-dashed bg-white border-blue-200 rounded-lg p-5">
+        <div className="text-xl font-medium text-gray-600 mb-2 hidden sm:hidden md:flex lg:flex">
+          Pin Service Application Address
+        </div>
 
-      {/* Alert */}
-      <div className="pt-2">
-        <Alert>
+        <div>
           <div className="flex gap-2">
             <div className="flex justify-center items-start ">
               <LucideLightbulb className="sm:h-10 sm:w-10 lg:h-12 lg:w-12" />
             </div>
             <div>
-              <AlertTitle className="text-amber-500">Information</AlertTitle>
-              <AlertDescription>
-                Drag the pointer to the exact location. You may use the slider on the left or the mouse scroll wheel to
-                zoom in and zoom out of the map. Use the pin finder button on the right-most part to center the pointer
-                on the map.
-              </AlertDescription>
+              <div className="text-amber-500">Information</div>
+              <div>
+                Click on the map to pin the exact location. You may use the slider on the right or the mouse scroll
+                wheel to zoom in and zoom out of the map.
+              </div>
             </div>
           </div>
-        </Alert>
+        </div>
       </div>
 
       <div className="py-4">
-        <div className="sm:h-[16rem] h-[44rem] lg:h-[44rem] relative">
+        <div className="sm:h-[16rem] h-[40rem] lg:h-[40rem] relative w-[100%]">
           <Map />
+          {/* <WebMap /> */}
         </div>
 
         <div className="mt-4 w-full flex justify-center">
@@ -159,18 +161,24 @@ export const AddressForm: FunctionComponent = () => {
           ) : (
             <>
               {isInside == true && coordinates !== undefined ? (
-                <span className="bg-emerald-500 text-white px-2 rounded text-sm">Service location available</span>
+                <span className=" px-2 rounded text-base font-medium p-2 border border-green-400 bg-green-500 text-white">
+                  Service location available
+                </span>
               ) : isInside == false && coordinates !== undefined ? (
-                <span className="bg-rose-500 text-white px-2 rounded text-sm">Service location unavailable</span>
+                <span className="  px-2 rounded text-base font-medium p-2 border border-red-400 bg-white text-red-600">
+                  Service location unavailable
+                </span>
               ) : (
-                <span className="text-gray-500 px-2 text-sm">No selected coordinates</span>
+                <span className="px-2 rounded text-base font-medium p-2 border border-gray-300 bg-white text-gray-600">
+                  No selected coordinates
+                </span>
               )}
             </>
           )}
         </div>
 
-        <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10 ">
-          <span>Additional Information</span>
+        <div className="text-xl font-medium text-primary mb-2 flex gap-1 items-center mt-10 ">
+          <span className="text-primary px-2  rounded">Additional Information</span>
         </div>
 
         <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
@@ -224,7 +232,7 @@ export const AddressForm: FunctionComponent = () => {
         </div>
       </div>
 
-      <Button variant={isInside ? 'alternative' : 'destructive'} disabled={isInside !== true ? true : false}>
+      <Button variant={isInside ? 'default' : 'secondary'} disabled={isInside !== true ? true : false}>
         Confirm
       </Button>
     </form>

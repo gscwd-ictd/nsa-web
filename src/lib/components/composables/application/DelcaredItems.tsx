@@ -17,7 +17,7 @@ export const DeclaredItems: FunctionComponent<DeclaredItemsProps> = ({ defaultOp
         className="sm:px-0 md:px-2  data-[state=closed]:lg:py-2 data-[state=closed]:lg:px-5 data-[state=open]:lg:p-5 data-[state=open]:h-full "
       >
         <AccordionTrigger className="data-[state=open]:pb-6">
-          <div className="text-lg col-span-2 font-medium text-gray-700 flex  items-center gap-2">
+          <div className="text-lg col-span-2 font-medium text-gray-600 flex  items-center gap-2">
             {/* <IoDocumentAttach className="h-6 w-6 fill-indigo-600" /> */}
             <span>Declared Plumbing and Fixtures</span>
           </div>
@@ -29,7 +29,7 @@ export const DeclaredItems: FunctionComponent<DeclaredItemsProps> = ({ defaultOp
                   if (item.qty > 0)
                     return (
                       <div key={idx} className="flex gap-2 items-center">
-                        <MdCheckBox className="w-6 h-6 fill-green-500" />
+                        <MdCheckBox className="w-6 h-6 fill-primary" />
                         <span className="text-base">{item.name}</span> - <span className="text-base">{item.qty}</span>
                       </div>
                     );

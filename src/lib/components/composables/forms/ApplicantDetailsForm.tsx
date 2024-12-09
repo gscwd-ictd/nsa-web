@@ -7,7 +7,7 @@ import { useApplicationFormStepStore, useApplicationFormStore } from '@nsa/lib/z
 import { LabelWithInput } from '../../ui/LabelWithInput';
 import { BsPersonStanding } from 'react-icons/bs';
 import { Address } from '@nsa/lib/utils/types/address';
-import { usePageContext } from '../new-service-application/NewServiceApplicationPage';
+import { usePageContext } from '@nsa/lib/providers/PageProvider';
 import { FormButton } from '../../ui/FormButton';
 import { Button } from '../../ui/Button';
 import { Alert, AlertDescription, AlertTitle } from '../../ui/Alert';
@@ -110,322 +110,331 @@ export const ApplicantDetailsForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10">
-        <span>Fill-out Applicant Information</span>
-      </div>
-
-      <Alert>
+      <div className="border-2 border-dashed bg-white border-blue-200 rounded-lg p-5">
+        <div className="text-xl font-medium text-gray-600 mb-2 gap-1 items-center hidden sm:hidden md:flex lg:flex">
+          <span>Fill-out Applicant Information</span>
+        </div>
         <div className="flex gap-2">
           <div className="flex justify-center items-start ">
             <LucideLightbulb className="sm:h-10 sm:w-10 lg:h-12 lg:w-12" />
           </div>
           <div>
-            <AlertTitle className="text-amber-500">Information</AlertTitle>
-            <AlertDescription>
-              Fill-out the applicant&apos;s full name, contact information, and service application address.
-            </AlertDescription>
+            <div className="text-amber-500">Information</div>
+            <div>Fill-out the applicant&apos;s full name, contact information, and service application address.</div>
           </div>
         </div>
-      </Alert>
-
-      <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10">
-        {/* <GoPersonFill /> */}
-        <span>Personal Information</span>
-      </div>
-      <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
-        <LabelWithInput
-          id="firstName"
-          label="First Name"
-          size="large"
-          placeholder="ex. Juan"
-          controller={{
-            ...register('firstName', {
-              value: firstName,
-              onChange: (e) => setFirstName(e.target.value),
-            }),
-          }}
-          isError={errors.firstName ? true : false}
-          errorMessage={errors.firstName?.message?.toString()}
-          isRequired
-        />
-
-        <LabelWithInput
-          id="middleName"
-          label="Middle Name"
-          size="large"
-          placeholder="ex. Santos"
-          controller={{
-            ...register('middleName', {
-              value: middleName,
-              onChange: (e) => setMiddleName(e.target.value),
-            }),
-          }}
-          isRequired
-          isError={errors.middleName ? true : false}
-          errorMessage={errors.middleName?.message?.toString()}
-        />
-
-        <LabelWithInput
-          id="lastName"
-          label="Last Name"
-          size="large"
-          placeholder="ex. Dela Cruz"
-          controller={{
-            ...register('lastName', {
-              value: lastName,
-              onChange: (e) => setLastName(e.target.value),
-            }),
-          }}
-          isError={errors.lastName ? true : false}
-          errorMessage={errors.lastName?.message?.toString()}
-          isRequired
-        />
-        <LabelWithInput
-          id="nameExt"
-          label="Suffix/Extension"
-          size="large"
-          placeholder="ex. Sr., Jr., III"
-          controller={{
-            ...register('nameExt', {
-              value: nameExt,
-              onChange: (e) => setNameExt(e.target.value),
-            }),
-          }}
-          isError={errors.nameExt ? true : false}
-          errorMessage={errors.nameExt?.message?.toString()}
-        />
-
-        <LabelWithInput
-          id="birthDate"
-          type="date"
-          label="Birthday"
-          size="large"
-          placeholder="Birthdate"
-          controller={{
-            ...register('birthDate', {
-              value: birthDate,
-              onChange: (e) => setBirthDate(e.target.value),
-            }),
-          }}
-          isError={errors.birthDate ? true : false}
-          errorMessage={errors.birthDate?.message?.toString()}
-          isRequired
-        />
       </div>
 
-      <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10">
-        <span>Contact Information</span>
-      </div>
-      <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
-        <LabelWithInput
-          id="mobileNumber"
-          label="Mobile No."
-          size="large"
-          placeholder="ex. 097706457785"
-          controller={{
-            ...register('mobileNumber', {
-              value: mobileNumber,
-              onChange: (e) => setMobileNumber(e.target.value),
-            }),
-          }}
-          isError={errors.mobileNumber ? true : false}
-          errorMessage={errors.mobileNumber?.message?.toString()}
-          isRequired
-        />
-        <LabelWithInput
-          id="emailAddress"
-          type="email"
-          label="Email Address"
-          size="large"
-          placeholder="ex. juandelacruz@gmail.com"
-          controller={{
-            ...register('emailAddress', {
-              value: emailAddress,
-              onChange: (e) => setEmailAddress(e.target.value),
-            }),
-          }}
-          isError={errors.emailAddress ? true : false}
-          errorMessage={errors.emailAddress?.message?.toString()}
-          isRequired
-        />
-      </div>
+      <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-10 mt-10">
+        <div>
+          <div className="text-xl font-medium text-primary mb-2 flex gap-1 items-center ">
+            {/* <GoPersonFill /> */}
+            <span className=" text-primary px-2 rounded">Personal Information</span>
+          </div>
+          <div className="grid grid-cols-1 gap-4">
+            <LabelWithInput
+              id="firstName"
+              label="First Name"
+              size="large"
+              placeholder="ex. Juan"
+              controller={{
+                ...register('firstName', {
+                  value: firstName,
+                  onChange: (e) => setFirstName(e.target.value),
+                }),
+              }}
+              isError={errors.firstName ? true : false}
+              errorMessage={errors.firstName?.message?.toString()}
+              isRequired
+            />
 
-      <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10">
-        <span>Service Application Address</span>
-      </div>
-      <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
-        <LabelWithInput
-          id="lotNo"
-          label="Lot No."
-          placeholder="Lot Number"
-          size="large"
-          autoComplete="off"
-          controller={{
-            ...register('lotNo', {
-              value: lotNo,
-              onChange: (e) => setLotNo(e.target.value),
-            }),
-          }}
-          isError={errors?.lotNo ? true : false}
-          errorMessage={errors?.lotNo?.message}
-        />
+            <LabelWithInput
+              id="middleName"
+              label="Middle Name"
+              size="large"
+              placeholder="ex. Santos"
+              controller={{
+                ...register('middleName', {
+                  value: middleName,
+                  onChange: (e) => setMiddleName(e.target.value),
+                }),
+              }}
+              isRequired
+              isError={errors.middleName ? true : false}
+              errorMessage={errors.middleName?.message?.toString()}
+            />
 
-        <LabelWithInput
-          id="blockNo"
-          label="Block No."
-          placeholder="Block Number"
-          size="large"
-          autoComplete="off"
-          controller={{
-            ...register('blockNo', {
-              value: blockNo,
-              onChange: (e) => setBlockNo(e.target.value),
-            }),
-          }}
-          isError={errors?.blockNo ? true : false}
-          errorMessage={errors?.blockNo?.message}
-        />
+            <LabelWithInput
+              id="lastName"
+              label="Last Name"
+              size="large"
+              placeholder="ex. Dela Cruz"
+              controller={{
+                ...register('lastName', {
+                  value: lastName,
+                  onChange: (e) => setLastName(e.target.value),
+                }),
+              }}
+              isError={errors.lastName ? true : false}
+              errorMessage={errors.lastName?.message?.toString()}
+              isRequired
+            />
+            <LabelWithInput
+              id="nameExt"
+              label="Suffix/Extension"
+              size="large"
+              placeholder="ex. Sr., Jr., III"
+              controller={{
+                ...register('nameExt', {
+                  value: nameExt,
+                  onChange: (e) => setNameExt(e.target.value),
+                }),
+              }}
+              isError={errors.nameExt ? true : false}
+              errorMessage={errors.nameExt?.message?.toString()}
+            />
 
-        <LabelWithInput
-          id="street"
-          label="Street"
-          placeholder="Street"
-          autoComplete="off"
-          size="large"
-          controller={{
-            ...register('street', { value: street, onChange: (e) => setStreet(e.target.value) }),
-          }}
-          isError={errors?.street ? true : false}
-          errorMessage={errors?.street?.message}
-        />
-        <LabelWithInput
-          id="subdivision"
-          label="Subdivision / Purok / Village"
-          placeholder="Subdivision"
-          autoComplete="off"
-          size="large"
-          controller={{
-            ...register('subdivision', {
-              value: subdivision,
-              onChange: (e) => setSubdivision(e.target.value),
-            }),
-          }}
-          isError={errors?.subdivision ? true : false}
-          errorMessage={errors?.subdivision?.message}
-          isRequired
-        />
+            <LabelWithInput
+              id="birthDate"
+              type="date"
+              label="Birthday"
+              size="large"
+              placeholder="Birthdate"
+              controller={{
+                ...register('birthDate', {
+                  value: birthDate,
+                  onChange: (e) => setBirthDate(e.target.value),
+                }),
+              }}
+              isError={errors.birthDate ? true : false}
+              errorMessage={errors.birthDate?.message?.toString()}
+              isRequired
+            />
+          </div>
+        </div>
 
-        <LabelWithInput
-          id="barangay"
-          label="Barangay"
-          placeholder="Barangay"
-          autoComplete="off"
-          size="large"
-          controller={{
-            ...register('barangay', {
-              value: barangay,
-              onChange: (e) => setBarangay(e.target.value),
-            }),
-          }}
-          isError={errors?.barangay ? true : false}
-          errorMessage={errors?.barangay?.message}
-          isRequired
-        />
-
-        <LabelWithInput
-          id="province"
-          label="Province"
-          placeholder="Province"
-          autoComplete="off"
-          size="large"
-          controller={{
-            ...register('province', {
-              value: province,
-              onChange: (e) => setProvince(e.target.value),
-            }),
-          }}
-          isError={errors?.province ? true : false}
-          errorMessage={errors?.province?.message}
-          isRequired
-          disabled
-        />
-        <LabelWithInput
-          id="city"
-          label="City"
-          placeholder="City"
-          autoComplete="off"
-          size="large"
-          controller={{
-            ...register('city', { value: city, onChange: (e) => setCity(e.target.value) }),
-          }}
-          isError={errors?.city ? true : false}
-          errorMessage={errors?.city?.message}
-          isRequired
-          disabled
-        />
-        <LabelWithInput
-          id="zipCode"
-          label="ZIP Code"
-          type="number"
-          placeholder="ZIP Code"
-          autoComplete="off"
-          size="large"
-          controller={{
-            ...register('zipCode', {
-              value: zipCode,
-              onChange: (e) => setZipCode(e.target.value),
-            }),
-          }}
-          isError={errors?.zipCode ? true : false}
-          errorMessage={errors?.zipCode?.message}
-          isRequired
-          disabled
-        />
+        <div>
+          <div className="text-xl font-medium text-primary  mb-2 flex gap-1 items-center ">
+            <span className="text-primary px-2  rounded">Contact Information</span>
+          </div>
+          <div className="grid grid-cols-1 gap-4">
+            <LabelWithInput
+              id="mobileNumber"
+              label="Mobile No."
+              size="large"
+              placeholder="ex. 097706457785"
+              controller={{
+                ...register('mobileNumber', {
+                  value: mobileNumber,
+                  onChange: (e) => setMobileNumber(e.target.value),
+                }),
+              }}
+              isError={errors.mobileNumber ? true : false}
+              errorMessage={errors.mobileNumber?.message?.toString()}
+              isRequired
+            />
+            <LabelWithInput
+              id="emailAddress"
+              type="email"
+              label="Email Address"
+              size="large"
+              placeholder="ex. juandelacruz@gmail.com"
+              controller={{
+                ...register('emailAddress', {
+                  value: emailAddress,
+                  onChange: (e) => setEmailAddress(e.target.value),
+                }),
+              }}
+              isError={errors.emailAddress ? true : false}
+              errorMessage={errors.emailAddress?.message?.toString()}
+              isRequired
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10">
-        <span>Other Info</span>
+      <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-10 mt-10">
+        <div>
+          <div className="text-xl font-medium text-primary mb-2 flex gap-1 items-center">
+            <span className="text-primary px-2  rounded">Service Application Address</span>
+          </div>
+          <div className="grid grid-cols-1 gap-4">
+            <LabelWithInput
+              id="lotNo"
+              label="Lot No."
+              placeholder="Lot Number"
+              size="large"
+              autoComplete="off"
+              controller={{
+                ...register('lotNo', {
+                  value: lotNo,
+                  onChange: (e) => setLotNo(e.target.value),
+                }),
+              }}
+              isError={errors?.lotNo ? true : false}
+              errorMessage={errors?.lotNo?.message}
+            />
+
+            <LabelWithInput
+              id="blockNo"
+              label="Block No."
+              placeholder="Block Number"
+              size="large"
+              autoComplete="off"
+              controller={{
+                ...register('blockNo', {
+                  value: blockNo,
+                  onChange: (e) => setBlockNo(e.target.value),
+                }),
+              }}
+              isError={errors?.blockNo ? true : false}
+              errorMessage={errors?.blockNo?.message}
+            />
+
+            <LabelWithInput
+              id="street"
+              label="Street"
+              placeholder="Street"
+              autoComplete="off"
+              size="large"
+              controller={{
+                ...register('street', { value: street, onChange: (e) => setStreet(e.target.value) }),
+              }}
+              isError={errors?.street ? true : false}
+              errorMessage={errors?.street?.message}
+            />
+            <LabelWithInput
+              id="subdivision"
+              label="Subdivision / Purok / Village"
+              placeholder="Subdivision"
+              autoComplete="off"
+              size="large"
+              controller={{
+                ...register('subdivision', {
+                  value: subdivision,
+                  onChange: (e) => setSubdivision(e.target.value),
+                }),
+              }}
+              isError={errors?.subdivision ? true : false}
+              errorMessage={errors?.subdivision?.message}
+              isRequired
+            />
+
+            <LabelWithInput
+              id="barangay"
+              label="Barangay"
+              placeholder="Barangay"
+              autoComplete="off"
+              size="large"
+              controller={{
+                ...register('barangay', {
+                  value: barangay,
+                  onChange: (e) => setBarangay(e.target.value),
+                }),
+              }}
+              isError={errors?.barangay ? true : false}
+              errorMessage={errors?.barangay?.message}
+              isRequired
+            />
+
+            <LabelWithInput
+              id="province"
+              label="Province"
+              placeholder="Province"
+              autoComplete="off"
+              size="large"
+              controller={{
+                ...register('province', {
+                  value: province,
+                  onChange: (e) => setProvince(e.target.value),
+                }),
+              }}
+              isError={errors?.province ? true : false}
+              errorMessage={errors?.province?.message}
+              isRequired
+              disabled
+            />
+            <LabelWithInput
+              id="city"
+              label="City"
+              placeholder="City"
+              autoComplete="off"
+              size="large"
+              controller={{
+                ...register('city', { value: city, onChange: (e) => setCity(e.target.value) }),
+              }}
+              isError={errors?.city ? true : false}
+              errorMessage={errors?.city?.message}
+              isRequired
+              disabled
+            />
+            <LabelWithInput
+              id="zipCode"
+              label="ZIP Code"
+              type="number"
+              placeholder="ZIP Code"
+              autoComplete="off"
+              size="large"
+              controller={{
+                ...register('zipCode', {
+                  value: zipCode,
+                  onChange: (e) => setZipCode(e.target.value),
+                }),
+              }}
+              isError={errors?.zipCode ? true : false}
+              errorMessage={errors?.zipCode?.message}
+              isRequired
+              disabled
+            />
+          </div>
+        </div>
+
+        <div>
+          <div className="text-xl font-medium text-primary  mb-2 flex gap-1 items-center">
+            <span className="text-primary px-2  rounded">Other Info</span>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4">
+            <LabelWithInput
+              id="noOfPersonsInHousehold"
+              label="No. of Persons in Household"
+              placeholder="ex. 1"
+              autoComplete="off"
+              size="large"
+              controller={{
+                ...register('noOfPersonsInHousehold', {
+                  value: noOfPersonsInHousehold,
+                  onChange: (e) => setNoOfPersonsInHousehold(e.target.value),
+                  valueAsNumber: true,
+                }),
+              }}
+              isError={errors?.noOfPersonsInHousehold ? true : false}
+              errorMessage={errors?.noOfPersonsInHousehold?.message}
+              isRequired
+            />
+
+            <LabelWithInput
+              id="noOfHouseInLot"
+              label="No. of House in Lot"
+              placeholder="ex. 1"
+              autoComplete="off"
+              size="large"
+              controller={{
+                ...register('noOfHouseInLot', {
+                  value: noOfHouseInLot,
+                  onChange: (e) => setNoOfHouseInLot(e.target.value),
+                  valueAsNumber: true,
+                }),
+              }}
+              isError={errors?.noOfHouseInLot ? true : false}
+              errorMessage={errors?.noOfHouseInLot?.message}
+              isRequired
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
-        <LabelWithInput
-          id="noOfPersonsInHousehold"
-          label="No. of Persons in Household"
-          placeholder="ex. 1"
-          autoComplete="off"
-          size="large"
-          controller={{
-            ...register('noOfPersonsInHousehold', {
-              value: noOfPersonsInHousehold,
-              onChange: (e) => setNoOfPersonsInHousehold(e.target.value),
-              valueAsNumber: true,
-            }),
-          }}
-          isError={errors?.noOfPersonsInHousehold ? true : false}
-          errorMessage={errors?.noOfPersonsInHousehold?.message}
-          isRequired
-        />
-
-        <LabelWithInput
-          id="noOfHouseInLot"
-          label="No. of House in Lot"
-          placeholder="ex. 1"
-          autoComplete="off"
-          size="large"
-          controller={{
-            ...register('noOfHouseInLot', {
-              value: noOfHouseInLot,
-              onChange: (e) => setNoOfHouseInLot(e.target.value),
-              valueAsNumber: true,
-            }),
-          }}
-          isError={errors?.noOfHouseInLot ? true : false}
-          errorMessage={errors?.noOfHouseInLot?.message}
-          isRequired
-        />
-      </div>
-
-      <div className="flex gap-4 mt-10">
+      <div className="flex gap-8 mt-10">
         <Button
           variant="outline"
           type="button"
@@ -436,7 +445,7 @@ export const ApplicantDetailsForm = () => {
         >
           Previous
         </Button>
-        <Button variant="alternative">Proceed</Button>
+        <Button>Proceed</Button>
       </div>
     </form>
   );

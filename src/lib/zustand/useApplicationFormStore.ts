@@ -59,6 +59,16 @@ type ApplicationFormStepState = {
   setCurrentStep: (currentStep: number) => void;
 };
 
+export type LabelValue = {
+  label: string;
+  value: string | number | null;
+};
+
+type ApplicationTabState = {
+  currentTab: string;
+  setCurrentTab: (currentTab: string) => void;
+};
+
 export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
   coordinates: undefined,
   firstName: 'Richard Vincent',
@@ -133,7 +143,14 @@ export const useApplicationFormStore = create<ApplicationFormState>((set) => ({
 
 export const useApplicationFormStepStore = create<ApplicationFormStepState>()(
   devtools((set) => ({
-    currentStep: 5,
+    currentStep: 1,
     setCurrentStep: (currentStep) => set({ currentStep }),
+  }))
+);
+
+export const useApplicationTabStore = create<ApplicationTabState>()(
+  devtools((set) => ({
+    currentTab: 'General',
+    setCurrentTab: (currentTab) => set({ currentTab }),
   }))
 );

@@ -1,13 +1,11 @@
 import { createContext, FunctionComponent, MutableRefObject, useRef } from 'react';
 import { Button } from '../../ui/Button';
 import { useApplicationFormStepStore, useApplicationFormStore } from '@nsa/lib/zustand/useApplicationFormStore';
-import { usePageContext } from '../new-service-application/NewServiceApplicationPage';
-import { FaRegIdCard } from 'react-icons/fa6';
+import { usePageContext } from '@nsa/lib/providers/PageProvider';
 import { LucideLightbulb, UploadIcon } from 'lucide-react';
 import { FileToUploadCard } from '../features/UploadCard';
 import { useToast } from '@nsa/hooks/use-toast';
 import { InvisibleInput } from '../../ui/InvisibileInput';
-import { Alert, AlertDescription, AlertTitle } from '../../ui/Alert';
 
 type SelfieContextState = {
   selfieWithValidIdRef: MutableRefObject<HTMLInputElement>;
@@ -68,31 +66,28 @@ export const SelfieForm: FunctionComponent = () => {
     <>
       <form>
         {/* SELFIE */}
-        <div className="text-xl font-medium text-gray-600 mb-2 flex gap-1 items-center mt-10">
-          <span>Attach your valid ID and selfie</span>
-        </div>
+        <div className="border-2 border-dashed bg-white border-blue-200 rounded-lg p-5">
+          <div className="text-xl font-medium text-gray-600 mb-2 gap-1 items-center hidden sm:hidden md:flex lg:flex">
+            <span className="">Attach your valid ID and selfie</span>
+          </div>
 
-        <Alert>
           <div className="flex gap-2">
             <div className="flex justify-center items-start ">
               <LucideLightbulb className="sm:h-10 sm:w-10 lg:h-12 lg:w-12" />
             </div>
             <div>
-              <AlertTitle className="text-amber-500">Information</AlertTitle>
-              <AlertDescription>
-                We need to confirm your identity with a photo of yourself holding your ID.
-              </AlertDescription>
+              <div className="text-amber-500">Information</div>
+              <div>We need to confirm your identity with a photo of yourself holding your ID.</div>
             </div>
           </div>
-        </Alert>
+        </div>
 
-        <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8 pt-9">
+        <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 pt-9">
           {/* VALID ID */}
           <div>
             <div className="flex flex-col mb-2">
-              <div className="flex gap-2 items-center text-xl font-medium text-gray-700">
-                <FaRegIdCard className="w-8 h-8 " />
-                Valid ID <span className="text-red-600">*</span>
+              <div className="flex gap-2 items-center text-xl font-medium text-primary">
+                <span className="text-primary ">Valid ID</span> <span className="text-red-600">*</span>
               </div>
             </div>
 
@@ -105,12 +100,12 @@ export const SelfieForm: FunctionComponent = () => {
               />
 
               {validIdToUpload && validIdToUpload.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed mb-2">
+                <div className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed mt-8 mb-2">
                   <h3 className="text-xl font-semibold text-zinc-600">No file selected</h3>
                 </div>
               ) : (
                 <ValidIdContext.Provider value={{ validIdRef }}>
-                  <div className="px-0 space-y-2 rounded mb-4">
+                  <div className="px-0 space-y-2 rounded mb-2">
                     <span className="items-center text-gray-700 text-base">
                       File/s to be uploaded ({validIdToUpload.length})
                     </span>
@@ -148,9 +143,8 @@ export const SelfieForm: FunctionComponent = () => {
           {/* VALID ID */}
           <div>
             <div className="flex flex-col mb-2">
-              <div className="flex gap-2 items-center text-xl font-medium text-gray-700">
-                <FaRegIdCard className="w-8 h-8 " />
-                Please provide a selfie with your valid ID <span className="text-red-600">*</span>
+              <div className="flex gap-2 items-center text-xl font-medium text-primary ">
+                <span className="text-primary">Selfie with your valid ID</span> <span className="text-red-600">*</span>
               </div>
             </div>
 
@@ -163,12 +157,12 @@ export const SelfieForm: FunctionComponent = () => {
               />
 
               {selfieWithValidIdToUpload && selfieWithValidIdToUpload.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed mb-2">
+                <div className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed mt-8 mb-2">
                   <h3 className="text-xl font-semibold text-zinc-600">No file selected</h3>
                 </div>
               ) : (
                 <SelfieContext.Provider value={{ selfieWithValidIdRef }}>
-                  <div className="px-0 space-y-2 rounded mb-4">
+                  <div className="px-0 space-y-2 rounded mb-2">
                     <span className="items-center text-gray-700 text-base">
                       File/s to be uploaded ({selfieWithValidIdToUpload.length})
                     </span>
@@ -209,7 +203,7 @@ export const SelfieForm: FunctionComponent = () => {
           </div>
         </div>
 
-        <div className="flex gap-4 mt-10">
+        <div className="flex gap-8 mt-10">
           <Button
             variant="outline"
             type="button"
@@ -220,7 +214,7 @@ export const SelfieForm: FunctionComponent = () => {
           >
             Previous
           </Button>
-          <Button variant="alternative" type="button" onClick={onSubmit}>
+          <Button type="button" onClick={onSubmit}>
             Proceed
           </Button>
         </div>

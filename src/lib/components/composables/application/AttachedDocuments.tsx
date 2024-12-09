@@ -21,7 +21,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
         className="sm:px-0 md:px-2  data-[state=closed]:lg:py-2 data-[state=closed]:lg:px-5 data-[state=open]:lg:p-5 data-[state=open]:h-full "
       >
         <AccordionTrigger className="data-[state=open]:pb-6">
-          <div className="text-lg col-span-2 font-medium text-gray-700 flex  items-center gap-2">
+          <div className="text-lg col-span-2 font-medium text-gray-600 flex  items-center gap-2">
             {/* <IoDocumentAttach className="h-6 w-6 fill-indigo-600" /> */}
             <span> Attached documents</span>
           </div>
@@ -31,9 +31,9 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Proof of ownership */}
             <div className="flex gap-1 items-center">
               {proofOfOwnershipToUpload.length > 0 ? (
-                <MdCheckBox className="w-6 h-6 fill-green-500" />
+                <MdCheckBox className="w-6 h-6 fill-primary" />
               ) : (
-                <MdCheckBoxOutlineBlank className="w-6 h-6 bg-white" />
+                <MdCheckBoxOutlineBlank className="w-6 h-6 text-gray-400 bg-white" />
               )}
               <span>Proof of Lot Ownership</span>
             </div>
@@ -41,9 +41,9 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Proof of Billing */}
             <div className="flex gap-1 items-center">
               {proofOfBillingToUpload.length > 0 ? (
-                <MdCheckBox className="w-6 h-6 fill-green-500" />
+                <MdCheckBox className="w-6 h-6 fill-primary" />
               ) : (
-                <MdCheckBoxOutlineBlank className="w-6 h-6 bg-white" />
+                <MdCheckBoxOutlineBlank className="w-6 h-6 text-gray-400 bg-white" />
               )}
               <span>Proof of Billing</span>
             </div>
@@ -51,9 +51,9 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Barangay Certificate */}
             <div className="flex gap-1 items-center">
               {barangayCertificateToUpload.length > 0 ? (
-                <MdCheckBox className="w-6 h-6 fill-green-500" />
+                <MdCheckBox className="w-6 h-6 fill-primary" />
               ) : (
-                <MdCheckBoxOutlineBlank className="w-6 h-6 bg-white" />
+                <MdCheckBoxOutlineBlank className="w-6 h-6 text-gray-400 bg-white" />
               )}
               <span>Barangay Certificate</span>
             </div>
@@ -61,9 +61,9 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Valid id */}
             <div className="flex gap-1 items-center">
               {validIdToUpload.length > 0 ? (
-                <MdCheckBox className="w-6 h-6 fill-green-500" />
+                <MdCheckBox className="w-6 h-6 fill-primary" />
               ) : (
-                <MdCheckBoxOutlineBlank className="w-6 h-6 bg-white" />
+                <MdCheckBoxOutlineBlank className="w-6 h-6 text-gray-400 bg-white" />
               )}
               <span>Valid ID</span>
             </div>
@@ -71,7 +71,7 @@ export const AttachedDocuments: FunctionComponent<AttachedDocumentsProps> = ({ d
             {/* Selfie */}
             <div className="flex gap-1 items-center">
               {selfieWithValidIdToUpload.length > 0 ? (
-                <MdCheckBox className="w-6 h-6 fill-green-500" />
+                <MdCheckBox className="w-6 h-6 fill-primary" />
               ) : (
                 <MdCheckBoxOutlineBlank className="w-6 h-6 bg-white" />
               )}

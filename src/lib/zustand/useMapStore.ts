@@ -8,7 +8,7 @@ import { LayerTypes } from '../utils/enums/layers';
 type MapStore = {
   // Map viewport configuration
   viewport: {
-    center: [number, number];
+    center: Coordinate;
     zoom: number;
     minZoom?: number;
   };

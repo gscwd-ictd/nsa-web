@@ -35,7 +35,7 @@ const LabelWithInput: React.FunctionComponent<LabelWithInputProps> = ({
     <div className="flex flex-col group">
       <label htmlFor={id} className="z-[1] px-2 select-none">
         <div
-          className={`-mb-2.5 flex gap-1 text-base tracking-wide font-normal py-0 px-1 bg-white rounded w-fit font-sans  justify-center  text-gray-900 ${
+          className={` flex gap-1 text-lg tracking-tight py-0 px-1 bg-transparent rounded w-fit justify-center font-medium text-gray-700 ${
             isError ? 'text-red-600' : 'group-focus-within:text-primary'
           }`}
         >
@@ -59,9 +59,9 @@ const LabelWithInput: React.FunctionComponent<LabelWithInputProps> = ({
             size === 'default' ? 'h-10' : size === 'large' ? 'h-12' : size === 'small' ? 'h-8' : ''
           } block border   ${
             isError
-              ? 'text-red-600 border-red-400 bg-background focus-visible:outline-none  dark:bg-current focus-visible:ring-1 focus-visible:ring-red-600 ring-offset-background'
-              : 'text-gray-700  border-input bg-background bg-blend-darken dark:bg-current  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ring-offset-background '
-          } peer rounded-md px-3 py-2 text-sm  file:border-0  file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-300   disabled:cursor-not-allowed disabled:opacity-75 `,
+              ? 'text-red-600 border-red-400 bg-white focus-visible:outline-none  dark:bg-current focus-visible:ring-1 focus-visible:ring-red-600 ring-offset-background'
+              : 'text-gray-700  border-input bg-white bg-blend-darken dark:bg-current  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ring-offset-background '
+          } peer rounded-md px-3 py-2 text-lg  file:border-0  file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-300   disabled:cursor-not-allowed disabled:opacity-75 `,
           className
         )}
       />

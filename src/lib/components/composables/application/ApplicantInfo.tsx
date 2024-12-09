@@ -23,7 +23,7 @@ export const ApplicantInfo: FunctionComponent<ApplicantInfoProps> = ({ defaultOp
         className="sm:px-0 md:px-2  data-[state=closed]:lg:py-2 data-[state=closed]:lg:px-5 data-[state=open]:lg:p-5 data-[state=open]:h-full "
       >
         <AccordionTrigger className="data-[state=open]:pb-6">
-          <div className="text-lg col-span-2 font-medium text-gray-700 flex  items-center gap-2">
+          <div className="text-lg col-span-2 font-medium text-gray-600 flex  items-center gap-2">
             {/* <IoWater className="h-6 w-6 fill-blue-400" /> */}
             <span> Applicant Information</span>
           </div>
